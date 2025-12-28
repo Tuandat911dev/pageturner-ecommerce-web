@@ -6,6 +6,7 @@ import BookPage from "./pages/client/book";
 import AboutPage from "./pages/client/about";
 import LoginPage from "./pages/client/auth/login";
 import RegisterPage from "./pages/client/auth/register";
+import "./styles/main.scss";
 
 const router = createBrowserRouter([
   {
