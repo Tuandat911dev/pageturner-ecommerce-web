@@ -1,8 +1,8 @@
 # 📚 PageTurner - Modern Bookstore Experience
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![Ant Design](https://img.shields.io/badge/-Ant%20Design-red?style=for-the-badge&logo=ant-design&logoColor=white)](https://ant.design/)
 
 **PageTurner** là một ứng dụng thương mại điện tử mua sắm sách trực tuyến hiện đại. Dự án tập trung vào trải nghiệm người dùng mượt mà, quản lý trạng thái chặt chẽ và tối ưu hóa hiệu suất với bộ công cụ mới nhất.
