@@ -1,11 +1,29 @@
-.register {
+@use "../abstracts";
+
+.auth {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
+  margin-top: 100px;
   padding: 20px 30px;
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 25%;
+
+  @include abstracts.breakpoint(xl) {
+    max-width: 50%;
+  }
+
+  @include abstracts.breakpoint(lg) {
+    max-width: 60%;
+  }
+
+  @include abstracts.breakpoint(md) {
+    max-width: 80%;
+  }
+
+  @include abstracts.breakpoint(sm) {
+    max-width: 90%;
+  }
 
   &--title {
     font-size: 2.5rem;
@@ -14,7 +32,7 @@
   }
 }
 
-.register-footer {
+.auth-footer {
   padding: 20px;
   display: flex;
   align-items: center;
