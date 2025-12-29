@@ -10,11 +10,14 @@ import "styles/main.scss";
 import HomePage from "pages/client/home";
 import { App } from "antd";
 import { AppProvider } from "components/context/app.context";
+import ProtectedRoute from "@/components/auth";
+import NotFoundPage from "./pages/error/notFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <NotFoundPage />,
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -24,6 +27,22 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutPage />,
+      },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoute>
+            <div>checkout page</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute>
+            <div>admin page</div>
+          </ProtectedRoute>
+        ),
       },
     ],
   },

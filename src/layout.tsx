@@ -18,7 +18,7 @@ function Layout() {
           setIsAuthenticated(true);
         }
         setIsAppLoading(false);
-      }, 3000);
+      }, 1500);
     };
 
     fetchAccount();
