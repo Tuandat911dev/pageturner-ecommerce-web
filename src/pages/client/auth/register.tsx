@@ -1,7 +1,8 @@
+import { registerAPI } from "@/services/api";
 import type { FormProps } from "antd";
 import { Button, Divider, Form, Input } from "antd";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
+import { App } from "antd";
 
 interface IRegister {
   fullName?: string;
@@ -10,21 +11,33 @@ interface IRegister {
   phone?: string;
 }
 
-const onFinish: FormProps<IRegister>["onFinish"] = (values) => {
-  console.log("Success:", values);
-};
-
-const onFinishFailed: FormProps<IRegister>["onFinishFailed"] = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
 const RegisterPage = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const { message } = App.useApp();
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const onFinish: FormProps<IRegister>["onFinish"] = async (values) => {
+    const res = await registerAPI(values.fullName!, values.email!, values.password!, values.phone!);
+
+    if (res.data) {
+      message.success(res.message || "Tạo tài khoản thành công");
+      form.resetFields();
+      navigate("/login");
+    }
+
+    if (res.error) {
+      message.error(res.message);
+    }
+  };
+
+  const onFinishFailed: FormProps<IRegister>["onFinishFailed"] = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   return (
     <>
       <article className="register">
         <h1 className="register--title">Đăng ký tài khoản</h1>
         <Form
+          form={form}
           layout="vertical"
           name="Register Form"
           onFinish={onFinish}
@@ -70,7 +83,7 @@ const RegisterPage = () => {
           </Form.Item>
 
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit">
               Đăng ký
             </Button>
           </Form.Item>
