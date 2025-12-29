@@ -4,6 +4,7 @@ import { Button, Divider, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { App } from "antd";
 import { useEffect, useState } from "react";
+import { useCurrentApp } from "@/components/context/app.context";
 
 interface ILogin {
   username?: string;
@@ -17,6 +18,7 @@ const LoginPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const values = Form.useWatch([], form);
+  const { setUser, setIsAuthenticated } = useCurrentApp();
 
   useEffect(() => {
     form
@@ -35,6 +37,9 @@ const LoginPage = () => {
         description: `Chào mừng ${res.data.user.fullName || "bạn"}`,
       });
       form.resetFields();
+      setIsAuthenticated(true);
+      setUser(res.data.user);
+      localStorage.setItem("access_token", res.data.access_token);
       navigate("/");
     }
 
