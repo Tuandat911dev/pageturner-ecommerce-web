@@ -58,9 +58,11 @@ const AppProvider = (props: TProps) => {
       >
         <FadeLoader color="#61DAFB" loading={true} height="15" />
       </div>
-      <CurrentAppContext value={{ isAuthenticated, user, isAppLoading, setUser, setIsAuthenticated, setIsAppLoading }}>
+      <CurrentAppContext.Provider
+        value={{ isAuthenticated, user, isAppLoading, setUser, setIsAuthenticated, setIsAppLoading }}
+      >
         {props.children}
-      </CurrentAppContext>
+      </CurrentAppContext.Provider>
     </>
   );
 };
