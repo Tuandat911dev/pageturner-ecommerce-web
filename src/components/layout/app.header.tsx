@@ -153,7 +153,11 @@ const AppHeader = () => {
               </li>
               <li className="navigation__item mobile">
                 {!isAuthenticated ? (
-                  <span onClick={() => navigate("/login")}> Tài Khoản</span>
+                  <>
+                    <span onClick={() => navigate("/login")}>Đăng nhập</span>
+                    <Divider type="vertical" />
+                    <span onClick={() => navigate("/register")}>Đăng ký</span>
+                  </>
                 ) : (
                   <Dropdown menu={{ items }} trigger={["click"]}>
                     <Space>

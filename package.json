@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "antd": "^6.1.2",
+    "@ant-design/pro-components": "2.8.10",
+    "antd": "^5.24.0",
     "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
