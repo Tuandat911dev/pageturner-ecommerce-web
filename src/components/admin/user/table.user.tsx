@@ -55,7 +55,9 @@ const TableUser = () => {
       cardBordered
       request={async (params, sort, filter) => {
         const { current, pageSize } = params;
-        const res = await getUserAPI(current!, pageSize!);
+        const res = await getUserAPI(Number(current) || 1, Number(pageSize) || 5);
+        console.log("sort", sort);
+        console.log("filter", filter);
 
         return {
           data: res.data?.result,
