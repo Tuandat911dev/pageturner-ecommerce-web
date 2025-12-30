@@ -56,7 +56,7 @@ const AppProvider = (props: TProps) => {
           pointerEvents: isAppLoading ? "auto" : "none",
         }}
       >
-        <FadeLoader color="#61DAFB" loading={true} height="15" />
+        <FadeLoader color="#61DAFB" loading={true} height="15px" />
       </div>
       <CurrentAppContext.Provider
         value={{ isAuthenticated, user, isAppLoading, setUser, setIsAuthenticated, setIsAppLoading }}

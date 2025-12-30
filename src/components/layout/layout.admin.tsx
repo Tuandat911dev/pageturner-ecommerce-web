@@ -37,13 +37,13 @@ const LayoutAdmin = () => {
       label: <span>Manage Users</span>,
       key: "/admin/user",
       icon: <UserOutlined />,
-      children: [
-        {
-          label: <Link to="/admin/user">CRUD</Link>,
-          key: "/admin/user",
-          icon: <TeamOutlined />,
-        },
-      ],
+      // children: [
+      //   {
+      //     label: <Link to="/admin/user">CRUD</Link>,
+      //     key: "/admin/user",
+      //     icon: <TeamOutlined />,
+      //   },
+      // ],
     },
     {
       label: <Link to="/admin/book">Manage Books</Link>,

@@ -1,18 +1,16 @@
 import { getUserAPI } from "@/services/api";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import type { ActionType, ProColumns } from "@ant-design/pro-components";
+import type { ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Space, Tag } from "antd";
-import { useRef } from "react";
+import { Button, Tag } from "antd";
 
 const TableUser = () => {
-  const actionRef = useRef<ActionType>();
-
   const columns: ProColumns<IUserTable>[] = [
     {
       title: "ID",
       dataIndex: "_id",
-      copyable: true,
+      hideInSearch: true,
+      render: (_, record) => <a href="#!">{record._id}</a>,
     },
     {
       title: "Full Name",
@@ -25,24 +23,20 @@ const TableUser = () => {
       copyable: true,
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-    },
-    {
       title: "Role",
       dataIndex: "role",
-      valueType: "select",
-      valueEnum: {
-        USER: { text: "User", status: "Default" },
-        ADMIN: { text: "Admin", status: "Success" },
-      },
       render: (_, record) => <Tag color={record.role === "ADMIN" ? "gold" : "cyan"}>{record.role}</Tag>,
     },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+    },
+
     {
       title: "Action",
       valueType: "option",
       key: "option",
-      render: (text, record) => [
+      render: (_, record) => [
         <Button key="edit" type="link" icon={<EditOutlined />} onClick={() => console.log("Edit:", record._id)}>
           Edit
         </Button>,
@@ -56,14 +50,12 @@ const TableUser = () => {
   return (
     <ProTable<IUserTable>
       headerTitle="User Management"
-      actionRef={actionRef}
       columns={columns}
       rowKey="_id"
       cardBordered
       request={async (params, sort, filter) => {
-        console.log("Query Params:", params, sort, filter);
-        const res = await getUserAPI();
-        console.log(res);
+        const { current, pageSize } = params;
+        const res = await getUserAPI(current!, pageSize!);
 
         return {
           data: res.data?.result,
@@ -82,7 +74,10 @@ const TableUser = () => {
         resetText: "Reset",
       }}
       pagination={{
-        pageSize: 10,
+        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        defaultPageSize: 5,
+        defaultCurrent: 1,
+        pageSizeOptions: [5, 10, 15, 20, 25],
         showSizeChanger: true,
       }}
       dateFormatter="string"
