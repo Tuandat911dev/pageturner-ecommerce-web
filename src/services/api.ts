@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import axios from "services/axios.customize";
 
 export const loginAPI = (username: string, password: string) => {
@@ -22,4 +23,9 @@ export const fetchAccountAPI = () => {
       delay: 3000,
     },
   });
+};
+
+export const getUserAPI = () => {
+  const urlBackend = "/api/v1/user?current=1&pageSize=5";
+  return axios.get<IBackendRes<IModelPaginate<IUserTable>>>(urlBackend);
 };

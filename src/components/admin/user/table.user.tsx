@@ -1,114 +1,76 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { getUserAPI } from "@/services/api";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Space, Tag } from "antd";
 import { useRef } from "react";
 
-type IssueItem = {
-  id: number;
-  title: string;
-  labels: { name: string; color: string }[];
-  state: string;
-  created_at: string;
-};
-
-const mockData: IssueItem[] = [
-  {
-    id: 1,
-    title: "Support dark mode for the dashboard",
-    state: "open",
-    created_at: "2024-03-20 10:00:00",
-    labels: [
-      { name: "feature", color: "blue" },
-      { name: "ui", color: "magenta" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Fix login button alignment on mobile",
-    state: "closed",
-    created_at: "2024-03-19 14:30:00",
-    labels: [{ name: "bug", color: "red" }],
-  },
-  {
-    id: 3,
-    title: "Update documentation for API v2",
-    state: "processing",
-    created_at: "2024-03-18 09:15:00",
-    labels: [{ name: "docs", color: "green" }],
-  },
-];
-
-const columns: ProColumns<IssueItem>[] = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    valueType: "indexBorder",
-    width: 60,
-  },
-  {
-    title: "Title",
-    dataIndex: "title",
-    copyable: true,
-    ellipsis: true,
-  },
-  {
-    title: "Status",
-    dataIndex: "state",
-    valueType: "select",
-    valueEnum: {
-      open: { text: "Open", status: "Error" },
-      closed: { text: "Closed", status: "Success" },
-      processing: { text: "Processing", status: "Processing" },
-    },
-  },
-  {
-    title: "Labels",
-    dataIndex: "labels",
-    search: false,
-    render: (_, record) => (
-      <Space>
-        {record.labels.map(({ name, color }) => (
-          <Tag color={color} key={name}>
-            {name}
-          </Tag>
-        ))}
-      </Space>
-    ),
-  },
-  {
-    title: "Created At",
-    dataIndex: "created_at",
-    valueType: "dateTime",
-    sorter: true,
-    hideInSearch: true,
-  },
-  {
-    title: "Action",
-    valueType: "option",
-    key: "option",
-    render: (text, record, _, action) => [
-      <a key="edit" onClick={() => action?.startEditable?.(record.id)}>
-        Edit
-      </a>,
-      <a key="delete" style={{ color: "red" }}>
-        Delete
-      </a>,
-    ],
-  },
-];
-
 const TableUser = () => {
   const actionRef = useRef<ActionType>();
 
+  const columns: ProColumns<IUserTable>[] = [
+    {
+      title: "ID",
+      dataIndex: "_id",
+      copyable: true,
+    },
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+      copyable: true,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      copyable: true,
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      valueType: "select",
+      valueEnum: {
+        USER: { text: "User", status: "Default" },
+        ADMIN: { text: "Admin", status: "Success" },
+      },
+      render: (_, record) => <Tag color={record.role === "ADMIN" ? "gold" : "cyan"}>{record.role}</Tag>,
+    },
+    {
+      title: "Action",
+      valueType: "option",
+      key: "option",
+      render: (text, record) => [
+        <Button key="edit" type="link" icon={<EditOutlined />} onClick={() => console.log("Edit:", record._id)}>
+          Edit
+        </Button>,
+        <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
+          Delete
+        </Button>,
+      ],
+    },
+  ];
+
   return (
-    <ProTable<IssueItem>
-      headerTitle="Issue Management"
-      columns={columns}
+    <ProTable<IUserTable>
+      headerTitle="User Management"
       actionRef={actionRef}
-      rowKey="id"
+      columns={columns}
+      rowKey="_id"
       cardBordered
-      dataSource={mockData}
+      request={async (params, sort, filter) => {
+        console.log("Query Params:", params, sort, filter);
+        const res = await getUserAPI();
+        console.log(res);
+
+        return {
+          data: res.data?.result,
+          success: true,
+          total: res.data?.meta.total || 5,
+        };
+      }}
       toolBarRender={() => [
         <Button key="add" icon={<PlusOutlined />} type="primary">
           Add New
@@ -120,9 +82,14 @@ const TableUser = () => {
         resetText: "Reset",
       }}
       pagination={{
-        pageSize: 5,
+        pageSize: 10,
+        showSizeChanger: true,
       }}
       dateFormatter="string"
+      options={{
+        reload: true,
+        setting: true,
+      }}
     />
   );
 };
