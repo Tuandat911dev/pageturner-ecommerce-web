@@ -31,9 +31,10 @@ declare global {
   }
 
   interface IRegister {
-    _id: string;
     email: string;
+    phone: string;
     fullName: string;
+    password: string;
   }
 
   interface IUser {

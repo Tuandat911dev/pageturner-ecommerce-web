@@ -1,7 +1,7 @@
 import { getUserAPI } from "@/services/api";
 import { dateRangeValidate, formatDate } from "@/services/helper";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import type { ProColumns } from "@ant-design/pro-components";
+import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
 
@@ -16,10 +16,12 @@ interface IProps {
   openDrawer: boolean;
   setOpenDrawer: (v: boolean) => void;
   setDetailUser: (v: IUserTable) => void;
+  setOpenModalCreate: (v: boolean) => void;
+  actionRef: React.MutableRefObject<ActionType | undefined>;
 }
 
 const TableUser = (props: IProps) => {
-  const { setOpenDrawer, setDetailUser } = props;
+  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef } = props;
 
   const columns: ProColumns<IUserTable>[] = [
     {
@@ -89,6 +91,7 @@ const TableUser = (props: IProps) => {
       columns={columns}
       rowKey="_id"
       cardBordered
+      actionRef={actionRef}
       request={async (params, sort) => {
         const { current, pageSize, email, fullName, createAtRange } = params;
 
@@ -108,12 +111,13 @@ const TableUser = (props: IProps) => {
           }
         }
 
-        if (sort) {
-          if (sort.createdAt) {
-            const option = sort.createdAt === "ascend" ? "" : "-";
-            query += `&sort=${option}createdAt`;
-          }
+        // default sort
+        let sortValue = "-createdAt";
+        if (sort && sort.createdAt) {
+          const option = sort.createdAt === "ascend" ? "" : "-";
+          sortValue = `${option}createdAt`;
         }
+        query += `&sort=${sortValue}`;
 
         const res = await getUserAPI(query);
 
@@ -124,7 +128,7 @@ const TableUser = (props: IProps) => {
         };
       }}
       toolBarRender={() => [
-        <Button key="add" icon={<PlusOutlined />} type="primary">
+        <Button key="add" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
           Add New
         </Button>,
       ]}

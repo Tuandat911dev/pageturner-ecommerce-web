@@ -30,6 +30,19 @@ const ProtectedRoute = (props: IProps) => {
           />
         );
       }
+    } else {
+      return (
+        <Result
+          status="403"
+          title="403"
+          subTitle="Rất tiếc, bạn không có quyền truy cập tài nguyên này."
+          extra={
+            <Link to="/">
+              <Button type="primary">Trang chủ</Button>
+            </Link>
+          }
+        />
+      );
     }
   } else {
     if (isAuthenticated) {

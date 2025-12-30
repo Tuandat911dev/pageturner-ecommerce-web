@@ -72,7 +72,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-
       {
         path: "user",
         element: (
