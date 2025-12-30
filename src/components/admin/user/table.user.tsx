@@ -34,6 +34,7 @@ const TableUser = () => {
       title: "Role",
       dataIndex: "role",
       render: (_, record) => <Tag color={record.role === "ADMIN" ? "gold" : "cyan"}>{record.role}</Tag>,
+      hideInSearch: true,
     },
     {
       title: "Created At",
@@ -69,7 +70,7 @@ const TableUser = () => {
       columns={columns}
       rowKey="_id"
       cardBordered
-      request={async (params, sort, filter) => {
+      request={async (params, sort) => {
         const { current, pageSize, email, fullName, createAtRange } = params;
 
         let query = "";
@@ -85,6 +86,13 @@ const TableUser = () => {
           const createDateRange = dateRangeValidate(createAtRange);
           if (createDateRange) {
             query += `&createdAt>=${createDateRange[0]}&createdAt<=${createDateRange[1]}`;
+          }
+        }
+
+        if (sort) {
+          if (sort.createdAt) {
+            const option = sort.createdAt === "ascend" ? "" : "-";
+            query += `&sort=${option}createdAt`;
           }
         }
 
