@@ -1,4 +1,4 @@
-import { Drawer, Tag } from "antd";
+import { Avatar, Drawer, Tag } from "antd";
 import { Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import { formatDate } from "@/services/helper";
@@ -12,10 +12,16 @@ interface IProps {
 
 const DetailUser = (props: IProps) => {
   const { openDrawer, setOpenDrawer, detailUser, setDetailUser } = props;
-
   let items: DescriptionsProps["items"] = [];
   if (detailUser) {
+    const userAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${detailUser.avatar}`;
     items = [
+      {
+        key: "0",
+        label: "Avatar",
+        children: <Avatar size={64} src={userAvatar} alt={detailUser.fullName} />,
+        span: 3,
+      },
       {
         key: "1",
         label: "ID",
