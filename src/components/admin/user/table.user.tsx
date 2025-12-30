@@ -1,6 +1,6 @@
 import { getUserAPI } from "@/services/api";
 import { dateRangeValidate, formatDate } from "@/services/helper";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, CloudUploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
@@ -18,10 +18,11 @@ interface IProps {
   setDetailUser: (v: IUserTable) => void;
   setOpenModalCreate: (v: boolean) => void;
   actionRef: React.MutableRefObject<ActionType | undefined>;
+  setOpenModalImport: (v: boolean) => void;
 }
 
 const TableUser = (props: IProps) => {
-  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef } = props;
+  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef, setOpenModalImport } = props;
 
   const columns: ProColumns<IUserTable>[] = [
     {
@@ -128,6 +129,12 @@ const TableUser = (props: IProps) => {
         };
       }}
       toolBarRender={() => [
+        <Button key="export" icon={<DownloadOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
+          Export
+        </Button>,
+        <Button key="import" icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>
+          Import
+        </Button>,
         <Button key="add" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
           Add New
         </Button>,
