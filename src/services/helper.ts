@@ -10,3 +10,7 @@ export const dateRangeValidate = (dateRange: string[]) => {
 
   return [startDate, endDate];
 };
+
+export const formatDate = (date: Date) => {
+  return dayjs(date).format("DD/MM/YYYY");
+};

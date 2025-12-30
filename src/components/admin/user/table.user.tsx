@@ -1,5 +1,5 @@
 import { getUserAPI } from "@/services/api";
-import { dateRangeValidate } from "@/services/helper";
+import { dateRangeValidate, formatDate } from "@/services/helper";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
@@ -12,13 +12,31 @@ type TSearch = {
   createAtRange: string[];
 };
 
-const TableUser = () => {
+interface IProps {
+  openDrawer: boolean;
+  setOpenDrawer: (v: boolean) => void;
+  setDetailUser: (v: IUserTable) => void;
+}
+
+const TableUser = (props: IProps) => {
+  const { setOpenDrawer, setDetailUser } = props;
+
   const columns: ProColumns<IUserTable>[] = [
     {
       title: "ID",
       dataIndex: "_id",
       hideInSearch: true,
-      render: (_, record) => <a href="#!">{record._id}</a>,
+      render: (_, record) => (
+        <a
+          href="#!"
+          onClick={() => {
+            setDetailUser(record);
+            setOpenDrawer(true);
+          }}
+        >
+          {record._id}
+        </a>
+      ),
     },
     {
       title: "Full Name",
@@ -42,6 +60,7 @@ const TableUser = () => {
       sorter: true,
       dataIndex: "createdAt",
       hideInSearch: true,
+      render: (_, record) => formatDate(record.createdAt),
     },
     {
       title: "Created At",
