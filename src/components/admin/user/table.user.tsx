@@ -1,8 +1,16 @@
 import { getUserAPI } from "@/services/api";
+import { dateRangeValidate } from "@/services/helper";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
+
+type TSearch = {
+  fullName: string;
+  email: string;
+  createAt: string;
+  createAtRange: string[];
+};
 
 const TableUser = () => {
   const columns: ProColumns<IUserTable>[] = [
@@ -29,9 +37,17 @@ const TableUser = () => {
     },
     {
       title: "Created At",
+      valueType: "date",
+      sorter: true,
       dataIndex: "createdAt",
+      hideInSearch: true,
     },
-
+    {
+      title: "Created At",
+      valueType: "dateRange",
+      dataIndex: "createAtRange",
+      hideInTable: true,
+    },
     {
       title: "Action",
       valueType: "option",
@@ -48,16 +64,31 @@ const TableUser = () => {
   ];
 
   return (
-    <ProTable<IUserTable>
+    <ProTable<IUserTable, TSearch>
       headerTitle="User Management"
       columns={columns}
       rowKey="_id"
       cardBordered
       request={async (params, sort, filter) => {
-        const { current, pageSize } = params;
-        const res = await getUserAPI(Number(current) || 1, Number(pageSize) || 5);
-        console.log("sort", sort);
-        console.log("filter", filter);
+        const { current, pageSize, email, fullName, createAtRange } = params;
+
+        let query = "";
+        if (params) {
+          query += `current=${current}&pageSize=${[pageSize]}`;
+          if (email) {
+            query += `&email=/${email}/i`;
+          }
+          if (fullName) {
+            query += `&fullName=/${fullName}/i`;
+          }
+
+          const createDateRange = dateRangeValidate(createAtRange);
+          if (createDateRange) {
+            query += `&createdAt>=${createDateRange[0]}&createdAt<=${createDateRange[1]}`;
+          }
+        }
+
+        const res = await getUserAPI(query);
 
         return {
           data: res.data?.result,
