@@ -5,6 +5,7 @@ import ExcelJS from "exceljs";
 import { useState } from "react";
 import { createMultiUserAPI } from "@/services/api";
 import type { ActionType } from "@ant-design/pro-components";
+import templateFile from "assets/templates/demo_data.xlsx?url";
 
 interface IProps {
   openModalImport: boolean;
@@ -166,6 +167,9 @@ const ImportUser = (props: IProps) => {
           </p>
           <p className="ant-upload-text">Click or drag file to this area to upload</p>
           <p className="ant-upload-hint">Support for only .svg or .xlsx files. Maximum 1 file.</p>
+          <a href={templateFile} download onClick={(e) => e.stopPropagation()}>
+            Download sample file
+          </a>
         </Dragger>
         <p style={{ fontSize: "1.5rem", textAlign: "center", padding: "20px", fontWeight: "500" }}>Review Data</p>
         <Table<IRegister> columns={columns} dataSource={importData} bordered rowKey="email" />
