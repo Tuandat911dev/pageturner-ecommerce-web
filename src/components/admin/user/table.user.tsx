@@ -4,6 +4,8 @@ import { PlusOutlined, EditOutlined, DeleteOutlined, CloudUploadOutlined, Downlo
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
+import ExportUser from "./export.user";
+import { useState } from "react";
 
 type TSearch = {
   fullName: string;
@@ -23,6 +25,7 @@ interface IProps {
 
 const TableUser = (props: IProps) => {
   const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef, setOpenModalImport } = props;
+  const [currentData, setCurrentData] = useState<IUserTable[]>([]);
 
   const columns: ProColumns<IUserTable>[] = [
     {
@@ -122,6 +125,10 @@ const TableUser = (props: IProps) => {
 
         const res = await getUserAPI(query);
 
+        if (res.data) {
+          setCurrentData(res.data.result);
+        }
+
         return {
           data: res.data?.result,
           success: true,
@@ -129,15 +136,15 @@ const TableUser = (props: IProps) => {
         };
       }}
       toolBarRender={() => [
-        <Button key="export" icon={<DownloadOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
-          Export
-        </Button>,
-        <Button key="import" icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>
-          Import
-        </Button>,
-        <Button key="add" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
-          Add New
-        </Button>,
+        <>
+          <ExportUser currentData={currentData} />
+          <Button key="import" icon={<CloudUploadOutlined />} type="primary" onClick={() => setOpenModalImport(true)}>
+            Import
+          </Button>
+          <Button key="add" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
+            Add New
+          </Button>
+        </>,
       ]}
       search={{
         labelWidth: "auto",
