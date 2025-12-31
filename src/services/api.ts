@@ -34,3 +34,8 @@ export const createUserAPI = (fullName: string, password: string, email: string,
   const urlBackend = "/api/v1/user";
   return axios.post<IBackendRes<IRegister>>(urlBackend, { fullName, password, email, phone });
 };
+
+export const createMultiUserAPI = (value: IRegister[]) => {
+  const urlBackend = "/api/v1/user/bulk-create";
+  return axios.post<IBackendRes<ICreateMultiUser>>(urlBackend, value);
+};

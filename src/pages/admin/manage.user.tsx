@@ -29,7 +29,7 @@ const ManageUserPage = () => {
         setDetailUser={setDetailUser}
       />
       <CreateUser openModalCreate={openModalCreate} setOpenModalCreate={setOpenModalCreate} actionRef={actionRef} />
-      <ImportUser openModalImport={openModalImport} setOpenModalImport={setOpenModalImport} />
+      <ImportUser openModalImport={openModalImport} setOpenModalImport={setOpenModalImport} actionRef={actionRef} />
     </div>
   );
 };

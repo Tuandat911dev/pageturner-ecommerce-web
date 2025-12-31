@@ -3,20 +3,39 @@ import Dragger from "antd/es/upload/Dragger";
 import { InboxOutlined } from "@ant-design/icons";
 import ExcelJS from "exceljs";
 import { useState } from "react";
+import { createMultiUserAPI } from "@/services/api";
+import type { ActionType } from "@ant-design/pro-components";
 
 interface IProps {
   openModalImport: boolean;
   setOpenModalImport: (v: boolean) => void;
+  actionRef: React.MutableRefObject<ActionType | undefined>;
 }
 
 const ImportUser = (props: IProps) => {
-  const { openModalImport, setOpenModalImport } = props;
+  const { openModalImport, setOpenModalImport, actionRef } = props;
   const { message } = App.useApp();
   const [importData, setImportData] = useState<IRegister[]>([]);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOk = () => {
-    setOpenModalImport(false);
+    setLoading(true);
+    setTimeout(async () => {
+      if (importData) {
+        const res = await createMultiUserAPI(importData);
+        if (res.data?.countError === 0) {
+          message.success("Import account successfully!");
+          setOpenModalImport(false);
+          setFileList([]);
+          setImportData([]);
+          actionRef.current?.reload();
+        } else {
+          message.error("Import failed");
+        }
+        setLoading(false);
+      }
+    }, 1500);
   };
 
   const handleCancel = () => {
@@ -85,7 +104,7 @@ const ImportUser = (props: IProps) => {
                 row.eachCell((cell, colNumber) => {
                   const headerName = headerRow[colNumber];
                   if (headerName) {
-                    rowData[headerName] = cell.value;
+                    rowData[headerName] = String(cell.value);
                   }
                 });
 
@@ -139,6 +158,7 @@ const ImportUser = (props: IProps) => {
         onOk={handleOk}
         okText={"Import Data"}
         onCancel={handleCancel}
+        confirmLoading={loading}
       >
         <Dragger {...data}>
           <p className="ant-upload-drag-icon">

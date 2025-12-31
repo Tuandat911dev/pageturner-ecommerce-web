@@ -61,4 +61,10 @@ declare global {
     createdAt: Date;
     updatedAt: Date;
   }
+
+  interface ICreateMultiUser {
+    countSuccess: number;
+    countError: number;
+    detail: string;
+  }
 }
