@@ -1,6 +1,8 @@
-import { App, Modal, Table, Upload, type TableProps, type UploadProps } from "antd";
+import { App, Modal, Table, Upload, type TableProps, type UploadFile, type UploadProps } from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import { InboxOutlined } from "@ant-design/icons";
+import ExcelJS from "exceljs";
+import { useState } from "react";
 
 interface IProps {
   openModalImport: boolean;
@@ -10,6 +12,8 @@ interface IProps {
 const ImportUser = (props: IProps) => {
   const { openModalImport, setOpenModalImport } = props;
   const { message } = App.useApp();
+  const [importData, setImportData] = useState<IRegister[]>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const handleOk = () => {
     setOpenModalImport(false);
@@ -17,16 +21,33 @@ const ImportUser = (props: IProps) => {
 
   const handleCancel = () => {
     setOpenModalImport(false);
+    setImportData([]);
+    setFileList([]);
   };
 
   const data: UploadProps = {
     name: "file",
     multiple: false,
     maxCount: 1,
+    fileList: fileList,
+
+    onChange: (info) => {
+      const newFileList = [...info.fileList];
+      setFileList(newFileList);
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      }
+    },
+
+    onRemove: () => {
+      setFileList([]);
+      setImportData([]);
+    },
 
     accept: ".svg, .xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 
-    beforeUpload: (file) => {
+    beforeUpload: async (file) => {
+      //validate file extension
       const isSvg = file.type === "image/svg+xml";
       const isXlsx =
         file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
@@ -37,16 +58,50 @@ const ImportUser = (props: IProps) => {
         return Upload.LIST_IGNORE;
       }
 
-      return true;
-    },
+      if (isXlsx) {
+        try {
+          // convert file to buffer
+          const arrayBuffer = await file.arrayBuffer();
+          const workbook = new ExcelJS.Workbook();
+          await workbook.xlsx.load(arrayBuffer);
 
-    onChange(info) {
-      const { status } = info.file;
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
+          // handle data
+          const worksheet = workbook.getWorksheet(1);
+          const jsonData: IRegister[] = [];
+          const headerRow = worksheet?.getRow(1).values as string[];
+          const REQUIRED_COLUMNS: (keyof IRegister)[] = ["email", "phone", "fullName", "password"];
+          const excelHeaders = headerRow.filter(Boolean);
+          const isMatch = REQUIRED_COLUMNS.every((key) => excelHeaders.includes(key));
+
+          if (!isMatch) {
+            const missing = REQUIRED_COLUMNS.filter((key) => !excelHeaders.includes(key));
+            message.error(`File Excel sai cấu trúc. Thiếu cột: ${missing.join(", ")}`);
+            return Upload.LIST_IGNORE;
+          } else {
+            worksheet?.eachRow((row, rowNumber) => {
+              if (rowNumber > 1) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const rowData: any = {};
+                row.eachCell((cell, colNumber) => {
+                  const headerName = headerRow[colNumber];
+                  if (headerName) {
+                    rowData[headerName] = cell.value;
+                  }
+                });
+
+                jsonData.push(rowData);
+              }
+            });
+          }
+          setImportData(jsonData);
+          message.success(`File uploaded successfully.`);
+        } catch (error) {
+          console.error("Lỗi khi đọc file Excel:", error);
+          message.error("Không thể đọc file Excel!");
+        }
       }
+
+      return false;
     },
   };
 
@@ -74,27 +129,6 @@ const ImportUser = (props: IProps) => {
     },
   ];
 
-  const demoData: IRegister[] = [
-    {
-      email: "user@gmail.com",
-      phone: "113",
-      fullName: "super user do",
-      password: "123456",
-    },
-    {
-      email: "user@gmail.com",
-      phone: "113",
-      fullName: "super user do",
-      password: "123456",
-    },
-    {
-      email: "user@gmail.com",
-      phone: "113",
-      fullName: "super user do",
-      password: "123456",
-    },
-  ];
-
   return (
     <>
       <Modal
@@ -114,7 +148,7 @@ const ImportUser = (props: IProps) => {
           <p className="ant-upload-hint">Support for only .svg or .xlsx files. Maximum 1 file.</p>
         </Dragger>
         <p style={{ fontSize: "1.5rem", textAlign: "center", padding: "20px", fontWeight: "500" }}>Review Data</p>
-        <Table<IRegister> columns={columns} dataSource={demoData} bordered />
+        <Table<IRegister> columns={columns} dataSource={importData} bordered rowKey="email" />
       </Modal>
     </>
   );
