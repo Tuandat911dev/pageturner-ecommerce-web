@@ -1,6 +1,6 @@
 import { getUserAPI } from "@/services/api";
 import { dateRangeValidate, formatDate } from "@/services/helper";
-import { PlusOutlined, EditOutlined, DeleteOutlined, CloudUploadOutlined, DownloadOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined, DeleteOutlined, CloudUploadOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Tag } from "antd";
@@ -21,10 +21,11 @@ interface IProps {
   setOpenModalCreate: (v: boolean) => void;
   actionRef: React.MutableRefObject<ActionType | undefined>;
   setOpenModalImport: (v: boolean) => void;
+  setOpenModalUpdate: (v: boolean) => void;
 }
 
 const TableUser = (props: IProps) => {
-  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef, setOpenModalImport } = props;
+  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef, setOpenModalImport, setOpenModalUpdate } = props;
   const [currentData, setCurrentData] = useState<IUserTable[]>([]);
 
   const columns: ProColumns<IUserTable>[] = [
@@ -79,7 +80,15 @@ const TableUser = (props: IProps) => {
       valueType: "option",
       key: "option",
       render: (_, record) => [
-        <Button key="edit" type="link" icon={<EditOutlined />} onClick={() => console.log("Edit:", record._id)}>
+        <Button
+          key="edit"
+          type="link"
+          icon={<EditOutlined />}
+          onClick={() => {
+            setDetailUser(record);
+            setOpenModalUpdate(true);
+          }}
+        >
           Edit
         </Button>,
         <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
