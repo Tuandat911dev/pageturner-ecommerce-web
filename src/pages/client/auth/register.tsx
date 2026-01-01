@@ -4,6 +4,7 @@ import { Button, Divider, Form, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { App } from "antd";
 import { useEffect, useState } from "react";
+import { APP_MESSAGES } from "@/constants";
 
 interface IRegister {
   fullName?: string;
@@ -33,13 +34,13 @@ const RegisterPage = () => {
       const res = await registerAPI(values.fullName!, values.email!, values.password!, values.phone!);
 
       if (res.data) {
-        message.success(res.message || "Tạo tài khoản thành công");
+        message.success(res.message || APP_MESSAGES.AUTH.REGISTER_SUCCESS_MESSAGE);
         form.resetFields();
         navigate("/login");
       }
 
       if (res.error) {
-        message.error(res.message);
+        message.error(res.message || APP_MESSAGES.AUTH.REGISTER_FAILED_MESSAGE);
       }
 
       setLoading(false);
@@ -64,7 +65,7 @@ const RegisterPage = () => {
           <Form.Item<IRegister>
             label="Họ tên"
             name="fullName"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.FULLNAME }]}
           >
             <Input />
           </Form.Item>
@@ -73,10 +74,10 @@ const RegisterPage = () => {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: "Vui lòng nhập email!" },
+              { required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.EMAIL },
               {
                 type: "email",
-                message: "Email không đúng định dạng!",
+                message: APP_MESSAGES.USER.VALIDATION.INVALID.EMAIL,
               },
             ]}
           >
@@ -86,7 +87,7 @@ const RegisterPage = () => {
           <Form.Item<IRegister>
             label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PASSWORD }]}
           >
             <Input.Password />
           </Form.Item>
@@ -94,7 +95,7 @@ const RegisterPage = () => {
           <Form.Item<IRegister>
             label="Số điện thoại"
             name="phone"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PHONE }]}
           >
             <Input />
           </Form.Item>

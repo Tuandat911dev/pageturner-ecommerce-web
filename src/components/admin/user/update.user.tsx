@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { App, Button, Form, Input, Modal, type FormProps } from "antd";
 import { updateUserAPI } from "@/services/api";
 import type { ActionType } from "@ant-design/pro-components";
+import { APP_MESSAGES } from "@/constants/messages";
 
 interface IProps {
   openModalUpdate: boolean;
@@ -57,8 +58,8 @@ const UpdateUser = (props: IProps) => {
       const res = await updateUserAPI(values._id!, values.fullName!, values.phone!);
       if (res.data) {
         notification.success({
-          message: "Thành công",
-          description: `${res.message || "Cập nhật thành công"}`,
+          message: APP_MESSAGES.COMMON.SUCCESS_TITLE,
+          description: `${res.message || APP_MESSAGES.USER.UPDATE_SUCCESS}`,
         });
         form.resetFields();
         setOpenModalUpdate(false);
@@ -66,8 +67,8 @@ const UpdateUser = (props: IProps) => {
       }
       if (res.error) {
         notification.error({
-          message: "Lỗi",
-          description: `${res.message || "Cập nhật không thành công"}`,
+          message: APP_MESSAGES.COMMON.ERROR_TITLE,
+          description: `${res.message || APP_MESSAGES.USER.UPDATE_FAILED}`,
         });
       }
       setLoading(false);
@@ -89,7 +90,7 @@ const UpdateUser = (props: IProps) => {
           <Form.Item<IUpdateUser>
             label="Họ tên"
             name="fullName"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.FULLNAME }]}
           >
             <Input />
           </Form.Item>
@@ -97,7 +98,7 @@ const UpdateUser = (props: IProps) => {
           <Form.Item<IUpdateUser>
             label="Số điện thoại"
             name="phone"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PHONE }]}
           >
             <Input />
           </Form.Item>

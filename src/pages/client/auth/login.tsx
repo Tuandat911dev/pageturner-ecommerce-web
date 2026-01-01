@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { App } from "antd";
 import { useEffect, useState } from "react";
 import { useCurrentApp } from "@/components/context/app.context";
+import { APP_MESSAGES } from "@/constants";
 
 interface ILogin {
   username?: string;
@@ -33,8 +34,8 @@ const LoginPage = () => {
 
     if (res.data) {
       notification.success({
-        title: "Đăng nhập thành công",
-        description: `Chào mừng ${res.data.user.fullName || "bạn"}`,
+        message: APP_MESSAGES.AUTH.LOGIN_SUCCESS_TITLE,
+        description: APP_MESSAGES.AUTH.LOGIN_SUCCESS_MESSAGE(res.data.user.fullName),
       });
       form.resetFields();
       setIsAuthenticated(true);
@@ -69,10 +70,10 @@ const LoginPage = () => {
             label="Email"
             name="username"
             rules={[
-              { required: true, message: "Vui lòng nhập email!" },
+              { required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.EMAIL },
               {
                 type: "email",
-                message: "Email không đúng định dạng!",
+                message: APP_MESSAGES.USER.VALIDATION.INVALID.EMAIL,
               },
             ]}
           >
@@ -82,7 +83,7 @@ const LoginPage = () => {
           <Form.Item<ILogin>
             label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PASSWORD }]}
           >
             <Input.Password />
           </Form.Item>

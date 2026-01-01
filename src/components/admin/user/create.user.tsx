@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { App, Button, Form, Input, Modal, type FormProps } from "antd";
 import { createUserAPI } from "@/services/api";
 import type { ActionType } from "@ant-design/pro-components";
+import { APP_MESSAGES } from "@/constants/messages";
 
 interface IProps {
   openModalCreate: boolean;
@@ -44,8 +45,8 @@ const CreateUser = (props: IProps) => {
 
       if (res.data) {
         notification.success({
-          message: "Thành công",
-          description: `${res.message || "Tạo tài khoản thành công"}`,
+          message: APP_MESSAGES.COMMON.SUCCESS_TITLE,
+          description: `${res.message || APP_MESSAGES.USER.CREATE_SUCCESS}`,
         });
         form.resetFields();
         setOpenModalCreate(false);
@@ -54,8 +55,8 @@ const CreateUser = (props: IProps) => {
 
       if (res.error) {
         notification.error({
-          message: "Có lỗi xảy ra",
-          description: `${res.message || "Tạo tài khoản không thành công"}`,
+          message: APP_MESSAGES.COMMON.ERROR_TITLE,
+          description: `${res.message || APP_MESSAGES.USER.CREATE_FAILED}`,
         });
       }
 
@@ -70,7 +71,7 @@ const CreateUser = (props: IProps) => {
           <Form.Item<ICreateUser>
             label="Họ tên"
             name="fullName"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.FULLNAME }]}
           >
             <Input />
           </Form.Item>
@@ -79,10 +80,10 @@ const CreateUser = (props: IProps) => {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: "Vui lòng nhập email!" },
+              { required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.EMAIL },
               {
                 type: "email",
-                message: "Email không đúng định dạng!",
+                message: APP_MESSAGES.USER.VALIDATION.INVALID.EMAIL,
               },
             ]}
           >
@@ -92,7 +93,7 @@ const CreateUser = (props: IProps) => {
           <Form.Item<ICreateUser>
             label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PASSWORD }]}
           >
             <Input.Password />
           </Form.Item>
@@ -100,7 +101,7 @@ const CreateUser = (props: IProps) => {
           <Form.Item<ICreateUser>
             label="Số điện thoại"
             name="phone"
-            rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+            rules={[{ required: true, message: APP_MESSAGES.USER.VALIDATION.REQUIRED.PHONE }]}
           >
             <Input />
           </Form.Item>

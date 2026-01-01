@@ -6,6 +6,7 @@ import { useState } from "react";
 import { createMultiUserAPI } from "@/services/api";
 import type { ActionType } from "@ant-design/pro-components";
 import templateFile from "assets/templates/demo_data.xlsx?url";
+import { APP_MESSAGES } from "@/constants/messages";
 
 interface IProps {
   openModalImport: boolean;
@@ -26,13 +27,13 @@ const ImportUser = (props: IProps) => {
       if (importData) {
         const res = await createMultiUserAPI(importData);
         if (res.data?.countError === 0) {
-          message.success("Import account successfully!");
+          message.success(APP_MESSAGES.USER.IMPORT_SUCCESS);
           setOpenModalImport(false);
           setFileList([]);
           setImportData([]);
           actionRef.current?.reload();
         } else {
-          message.error("Import failed");
+          message.error(APP_MESSAGES.USER.IMPORT_FALIED);
         }
         setLoading(false);
       }
@@ -114,10 +115,10 @@ const ImportUser = (props: IProps) => {
             });
           }
           setImportData(jsonData);
-          message.success(`File uploaded successfully.`);
+          message.success(APP_MESSAGES.FILE.UPLOAD_SUCCESS);
         } catch (error) {
           console.error("Lỗi khi đọc file Excel:", error);
-          message.error("Không thể đọc file Excel!");
+          message.error(APP_MESSAGES.FILE.UPLOAD_FAILED);
         }
       }
 
