@@ -33,7 +33,7 @@ const ImportUser = (props: IProps) => {
           setImportData([]);
           actionRef.current?.reload();
         } else {
-          message.error(APP_MESSAGES.USER.IMPORT_FALIED);
+          message.error(APP_MESSAGES.USER.IMPORT_FAILED);
         }
         setLoading(false);
       }

@@ -4,9 +4,10 @@ export const APP_MESSAGES = {
     CREATE_FAILED: "Tạo người dùng thất bại.",
     UPDATE_SUCCESS: "Cập nhật thông tin người dùng thành công.",
     UPDATE_FAILED: "Cập nhật thông tin người dùng không thành công.",
+    DELETE_SUCCESS: (account: string) => `Xoá tài khoản ${account || ""} thành công`,
+    DELETE_FAILED: (account: string) => `Không thể xoá tài khoản ${account || "này"}`,
     IMPORT_SUCCESS: "Import dữ liệu thành công",
-    IMPORT_FALIED: "Import dữ liệu thất bại",
-    DELETE_SUCCESS: "Đã xóa người dùng khỏi hệ thống.",
+    IMPORT_FAILED: "Import dữ liệu thất bại",
     NOT_FOUND: "Không tìm thấy người dùng này.",
 
     VALIDATION: {

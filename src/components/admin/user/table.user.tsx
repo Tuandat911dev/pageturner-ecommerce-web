@@ -3,7 +3,7 @@ import { dateRangeValidate, formatDate } from "@/services/helper";
 import { PlusOutlined, EditOutlined, DeleteOutlined, CloudUploadOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Tag } from "antd";
+import { Button, Popconfirm, Tag } from "antd";
 import ExportUser from "./export.user";
 import { useState } from "react";
 
@@ -22,10 +22,19 @@ interface IProps {
   actionRef: React.MutableRefObject<ActionType | undefined>;
   setOpenModalImport: (v: boolean) => void;
   setOpenModalUpdate: (v: boolean) => void;
+  handleDeleteUser: (_id: string, fullName: string) => void;
 }
 
 const TableUser = (props: IProps) => {
-  const { setOpenDrawer, setDetailUser, setOpenModalCreate, actionRef, setOpenModalImport, setOpenModalUpdate } = props;
+  const {
+    setOpenDrawer,
+    setDetailUser,
+    setOpenModalCreate,
+    actionRef,
+    setOpenModalImport,
+    setOpenModalUpdate,
+    handleDeleteUser,
+  } = props;
   const [currentData, setCurrentData] = useState<IUserTable[]>([]);
 
   const columns: ProColumns<IUserTable>[] = [
@@ -79,22 +88,33 @@ const TableUser = (props: IProps) => {
       title: "Action",
       valueType: "option",
       key: "option",
-      render: (_, record) => [
-        <Button
-          key="edit"
-          type="link"
-          icon={<EditOutlined />}
-          onClick={() => {
-            setDetailUser(record);
-            setOpenModalUpdate(true);
-          }}
-        >
-          Edit
-        </Button>,
-        <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
-          Delete
-        </Button>,
-      ],
+      render: (_, record) => (
+        <>
+          <Popconfirm
+            placement="bottomRight"
+            title={"Bạn chắc chắn muốn xoá?"}
+            description={"Xoá tài khoản này"}
+            okText="OK"
+            cancelText="Cancel"
+            onConfirm={() => handleDeleteUser(record._id, record.fullName)}
+          >
+            <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
+              Delete
+            </Button>
+          </Popconfirm>
+          <Button
+            key="edit"
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => {
+              setDetailUser(record);
+              setOpenModalUpdate(true);
+            }}
+          >
+            Edit
+          </Button>
+        </>
+      ),
     },
   ];
 
