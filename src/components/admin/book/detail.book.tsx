@@ -79,12 +79,26 @@ const DetailBook = (props: IProps) => {
           }}
         >
           {currentBook?.thumbnail !== undefined ? (
-            <Image width={200} src={getImage(currentBook.thumbnail)} alt={currentBook.mainText} />
+            <Image
+              width={200}
+              height={250}
+              style={{ objectFit: "cover" }}
+              src={getImage(currentBook.thumbnail)}
+              alt={currentBook.mainText}
+            />
           ) : null}
 
           {currentBook?.slider.length || 0 > 0
             ? currentBook?.slider.map((slider) => {
-                return <Image width={200} src={getImage(slider)} alt={currentBook.mainText} />;
+                return (
+                  <Image
+                    width={200}
+                    height={250}
+                    style={{ objectFit: "cover" }}
+                    src={getImage(slider)}
+                    alt={currentBook.mainText}
+                  />
+                );
               })
             : null}
         </Image.PreviewGroup>
