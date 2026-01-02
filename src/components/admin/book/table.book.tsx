@@ -7,103 +7,120 @@ import { Image } from "antd";
 import { dateRangeValidate, formatDate, formatVND } from "@/services/helper";
 import { getBookAPI } from "@/services/api";
 
-const columns: ProColumns<IBookTable>[] = [
-  {
-    title: "ID",
-    dataIndex: "_id",
-    hideInSearch: true,
-    render: (_, record) => <a href="#!">{record._id}</a>,
-  },
-  {
-    title: "Thumbnail",
-    dataIndex: "thumbnail",
-    hideInSearch: true,
-    render: (_, record) => {
-      const thumbnail = `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`;
+interface IProps {
+  setOpenBookDetail: (v: boolean) => void;
+  setCurrentBook: (v: null | IBookTable) => void;
+}
 
-      return <Image width={120} alt={record.mainText} src={thumbnail} />;
-    },
-  },
-  {
-    title: "Title",
-    dataIndex: "mainText",
-    copyable: true,
-    width: 250,
-    sorter: true,
-  },
-  {
-    title: "Category",
-    dataIndex: "category",
-    render: (_, record) => <Tag color="cyan">{record.category}</Tag>,
-    hideInSearch: true,
-  },
-  {
-    title: "Price",
-    dataIndex: "price",
-    hideInSearch: true,
-    sorter: true,
-    render: (_, record) => formatVND(record.price),
-  },
-  {
-    title: "Sold",
-    dataIndex: "sold",
-    hideInSearch: true,
-    sorter: true,
-  },
-  {
-    title: "Quantity",
-    dataIndex: "quantity",
-    sorter: true,
-  },
-  {
-    title: "Created At",
-    valueType: "date",
-    sorter: true,
-    dataIndex: "createdAt",
-    hideInSearch: true,
-    render: (_, record) => formatDate(record.createdAt),
-  },
-  {
-    title: "Created At",
-    valueType: "dateRange",
-    dataIndex: "createAtRange",
-    hideInTable: true,
-  },
-  {
-    title: "Action",
-    valueType: "option",
-    key: "option",
-    render: (_, record) => (
-      <>
-        <Popconfirm
-          placement="bottomRight"
-          title={"Bạn chắc chắn muốn xoá?"}
-          description={"Xoá tài khoản này"}
-          okText="OK"
-          cancelText="Cancel"
-          onConfirm={() => console.log("Delete")}
-        >
-          <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
-            Delete
-          </Button>
-        </Popconfirm>
-        <Button
-          key="edit"
-          type="link"
-          icon={<EditOutlined />}
+const TableBook = (props: IProps) => {
+  const { setOpenBookDetail, setCurrentBook } = props;
+  const actionRef = useRef<ActionType>();
+
+  const columns: ProColumns<IBookTable>[] = [
+    {
+      title: "ID",
+      dataIndex: "_id",
+      hideInSearch: true,
+      render: (_, record) => (
+        <a
+          href="#!"
           onClick={() => {
-            console.log("edit");
+            setCurrentBook(record);
+            setOpenBookDetail(true);
           }}
         >
-          Edit
-        </Button>
-      </>
-    ),
-  },
-];
+          {record._id}
+        </a>
+      ),
+    },
+    {
+      title: "Thumbnail",
+      dataIndex: "thumbnail",
+      hideInSearch: true,
+      render: (_, record) => {
+        const thumbnail = `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`;
 
-const TableBook = () => {
-  const actionRef = useRef<ActionType>();
+        return <Image width={120} alt={record.mainText} src={thumbnail} />;
+      },
+    },
+    {
+      title: "Title",
+      dataIndex: "mainText",
+      copyable: true,
+      width: 250,
+      sorter: true,
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      render: (_, record) => <Tag color="cyan">{record.category}</Tag>,
+      hideInSearch: true,
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      hideInSearch: true,
+      sorter: true,
+      render: (_, record) => formatVND(record.price),
+    },
+    {
+      title: "Sold",
+      dataIndex: "sold",
+      hideInSearch: true,
+      sorter: true,
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      sorter: true,
+    },
+    {
+      title: "Created At",
+      valueType: "date",
+      sorter: true,
+      dataIndex: "createdAt",
+      hideInSearch: true,
+      render: (_, record) => formatDate(record.createdAt),
+    },
+    {
+      title: "Created At",
+      valueType: "dateRange",
+      dataIndex: "createAtRange",
+      hideInTable: true,
+    },
+    {
+      title: "Action",
+      valueType: "option",
+      key: "option",
+      render: (_, record) => (
+        <>
+          <Popconfirm
+            placement="bottomRight"
+            title={"Bạn chắc chắn muốn xoá?"}
+            description={"Xoá tài khoản này"}
+            okText="OK"
+            cancelText="Cancel"
+            onConfirm={() => console.log(record._id)}
+          >
+            <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
+              Delete
+            </Button>
+          </Popconfirm>
+          <Button
+            key="edit"
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => {
+              console.log("edit");
+            }}
+          >
+            Edit
+          </Button>
+        </>
+      ),
+    },
+  ];
+
   return (
     <ProTable<IBookTable>
       rowKey="_id"
