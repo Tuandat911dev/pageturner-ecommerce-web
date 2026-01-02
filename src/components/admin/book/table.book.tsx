@@ -2,7 +2,6 @@ import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from "@a
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, Dropdown, Popconfirm, Tag } from "antd";
-import { useRef } from "react";
 import { Image } from "antd";
 import { dateRangeValidate, formatDate, formatVND } from "@/services/helper";
 import { getBookAPI } from "@/services/api";
@@ -10,11 +9,12 @@ import { getBookAPI } from "@/services/api";
 interface IProps {
   setOpenBookDetail: (v: boolean) => void;
   setCurrentBook: (v: null | IBookTable) => void;
+  setOpenModalCreate: (v: boolean) => void;
+  actionRef: React.MutableRefObject<ActionType | undefined>;
 }
 
 const TableBook = (props: IProps) => {
-  const { setOpenBookDetail, setCurrentBook } = props;
-  const actionRef = useRef<ActionType>();
+  const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, actionRef } = props;
 
   const columns: ProColumns<IBookTable>[] = [
     {
@@ -202,7 +202,7 @@ const TableBook = (props: IProps) => {
       dateFormatter="string"
       headerTitle="Manage Book"
       toolBarRender={() => [
-        <Button key="button" icon={<PlusOutlined />} type="primary">
+        <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
           Thêm mới
         </Button>,
         <Dropdown

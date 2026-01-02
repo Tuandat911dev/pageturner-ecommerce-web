@@ -25,6 +25,26 @@ export const APP_MESSAGES = {
       },
     },
   },
+  BOOK: {
+    CREATE_SUCCESS: "Tạo sách thành công.",
+    CREATE_FAILED: "Tạo sách thất bại.",
+    UPDATE_SUCCESS: "Cập nhật thông tin sách thành công.",
+    UPDATE_FAILED: "Cập nhật thông tin sách không thành công.",
+    DELETE_SUCCESS: (name: string) => `Xoá sách ${name || ""} thành công`,
+    DELETE_FAILED: (name: string) => `Không thể xoá sách ${name || "này"}`,
+
+    VALIDATION: {
+      REQUIRED: {
+        MAIN_TEXT: "Tên sách không được để trống",
+        AUTHOR: "Tác giả không được để trống",
+        PRICE: "Giá tiền không được để trống",
+        QUANTITY: "Số lượng không được để trống",
+        CATEGORY: "Thể loại không được để trống",
+        THUMBNAIL: "Vui lòng upload ảnh đại diện",
+        SLIDER: "Vui lòng upload ít nhất một ảnh slider",
+      },
+    },
+  },
   FILE: {
     UPLOAD_SUCCESS: "Tải lên file thành công",
     UPLOAD_FAILED: "Tải lên file thất bại",

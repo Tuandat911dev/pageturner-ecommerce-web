@@ -60,3 +60,36 @@ export const getBookAPI = (query: string) => {
   const urlBackend = `/api/v1/book?${query}`;
   return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend);
 };
+
+export const getBookCategory = () => {
+  const urlBackend = `/api/v1/database/category`;
+  return axios.get<IBackendRes<string[]>>(urlBackend);
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const callUploadImageBook = (file: any) => {
+  const urlBackend = `/api/v1/file/upload`;
+  const body = new FormData();
+  body.append("fileImg", file);
+
+  return axios.post<IBackendRes<string>>(urlBackend, body, {
+    headers: {
+      "upload-type": "book",
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const createBookAPI = (data: {
+  thumbnail: string;
+  slider: string[];
+  mainText: string;
+  author: string;
+  price: number;
+  sold: number;
+  quantity: number;
+  category: string;
+}) => {
+  const urlBackend = `/api/v1/book`;
+  return axios.post<IBackendRes<IBookTable>>(urlBackend, data);
+};
