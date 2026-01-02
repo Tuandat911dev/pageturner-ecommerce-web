@@ -14,3 +14,17 @@ export const dateRangeValidate = (dateRange: string[]) => {
 export const formatDate = (date: Date) => {
   return dayjs(date).format("DD/MM/YYYY");
 };
+
+export const formatVND = (value: string | number) => {
+  value = value.toString().replace(/\./g, "");
+
+  const formatted = new Intl.NumberFormat("it-IT", {
+    style: "currency",
+    currency: "VND",
+  })
+    .format(+value)
+    .replace("VND", "")
+    .trim();
+
+  return `${formatted} ₫`;
+};

@@ -124,6 +124,10 @@ const TableUser = (props: IProps) => {
       columns={columns}
       rowKey="_id"
       cardBordered
+      scroll={{ y: "calc(100vh - 320px)" }}
+      sticky={{
+        offsetHeader: 0,
+      }}
       actionRef={actionRef}
       request={async (params, sort) => {
         const { current, pageSize, email, fullName, createAtRange } = params;

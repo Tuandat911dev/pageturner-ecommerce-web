@@ -17,3 +17,12 @@ body {
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
 }
+
+.ant-table-body::-webkit-scrollbar {
+  display: none;
+}
+
+.ant-table-body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

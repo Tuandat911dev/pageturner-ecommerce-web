@@ -3,7 +3,6 @@ import {
   AppstoreOutlined,
   ExceptionOutlined,
   HeartTwoTone,
-  TeamOutlined,
   UserOutlined,
   DollarCircleOutlined,
   MenuFoldOutlined,
@@ -107,10 +106,22 @@ const LayoutAdmin = () => {
   return (
     <>
       <Layout style={{ minHeight: "100vh" }} className="layout-admin">
-        <Sider theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider
+          theme="light"
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "sticky",
+            top: 0,
+            left: 0,
+          }}
+        >
           <div style={{ height: 32, margin: 16, textAlign: "center" }}>Admin</div>
           <Menu
-            // defaultSelectedKeys={[activeMenu]}
+            defaultSelectedKeys={[activeMenu]}
             selectedKeys={[activeMenu]}
             mode="inline"
             items={items}
@@ -127,6 +138,12 @@ const LayoutAdmin = () => {
               alignItems: "center",
               justifyContent: "space-between",
               padding: "0 15px",
+              position: "sticky",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1000,
+              background: "#f5f5f5",
             }}
           >
             <span>
@@ -146,7 +163,7 @@ const LayoutAdmin = () => {
             <Outlet />
           </Content>
           <Footer style={{ padding: 0, textAlign: "center" }}>
-            React Test Fresher &copy; Hỏi Dân IT - Made with <HeartTwoTone />
+            Pham Tuan Dat &copy; Pageturner - Made with <HeartTwoTone />
           </Footer>
         </Layout>
       </Layout>
