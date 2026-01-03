@@ -80,6 +80,7 @@ const DetailBook = (props: IProps) => {
         >
           {currentBook?.thumbnail !== undefined ? (
             <Image
+              key="slider"
               width={200}
               height={250}
               style={{ objectFit: "cover" }}
@@ -88,10 +89,11 @@ const DetailBook = (props: IProps) => {
             />
           ) : null}
 
-          {currentBook?.slider.length || 0 > 0
-            ? currentBook?.slider.map((slider) => {
+          {currentBook?.slider && currentBook.slider.length > 0
+            ? currentBook?.slider.map((slider, index) => {
                 return (
                   <Image
+                    key={index}
                     width={200}
                     height={250}
                     style={{ objectFit: "cover" }}

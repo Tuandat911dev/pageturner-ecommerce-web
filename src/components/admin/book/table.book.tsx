@@ -10,11 +10,12 @@ interface IProps {
   setOpenBookDetail: (v: boolean) => void;
   setCurrentBook: (v: null | IBookTable) => void;
   setOpenModalCreate: (v: boolean) => void;
+  setOpenModalUpdate: (v: boolean) => void;
   actionRef: React.MutableRefObject<ActionType | undefined>;
 }
 
 const TableBook = (props: IProps) => {
-  const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, actionRef } = props;
+  const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, setOpenModalUpdate, actionRef } = props;
 
   const columns: ProColumns<IBookTable>[] = [
     {
@@ -111,7 +112,8 @@ const TableBook = (props: IProps) => {
             type="link"
             icon={<EditOutlined />}
             onClick={() => {
-              console.log("edit");
+              setOpenModalUpdate(true);
+              setCurrentBook(record);
             }}
           >
             Edit

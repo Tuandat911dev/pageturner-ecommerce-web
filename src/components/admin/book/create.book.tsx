@@ -57,7 +57,7 @@ const CreateBook = (props: IProps) => {
   const [fileListSlider, setFileListSlider] = useState<UploadFile[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<FieldType>();
   const { message, notification } = App.useApp();
 
   useEffect(() => {
@@ -247,7 +247,8 @@ const CreateBook = (props: IProps) => {
               >
                 <Select
                   placeholder="Chọn thể loại sách"
-                  options={categories.map((item) => ({
+                  options={categories.map((item, index) => ({
+                    key: index,
                     value: item,
                     label: item,
                   }))}

@@ -93,3 +93,20 @@ export const createBookAPI = (data: {
   const urlBackend = `/api/v1/book`;
   return axios.post<IBackendRes<IBookTable>>(urlBackend, data);
 };
+
+export const updateBookAPI = (
+  data: {
+    thumbnail: string;
+    slider: string[];
+    mainText: string;
+    author: string;
+    price: number;
+    sold: number;
+    quantity: number;
+    category: string;
+  },
+  _id: string
+) => {
+  const urlBackend = `/api/v1/book/${_id}`;
+  return axios.put<IBackendRes<IBookTable>>(urlBackend, data);
+};
