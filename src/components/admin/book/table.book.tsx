@@ -12,10 +12,12 @@ interface IProps {
   setOpenModalCreate: (v: boolean) => void;
   setOpenModalUpdate: (v: boolean) => void;
   actionRef: React.MutableRefObject<ActionType | undefined>;
+  handleDeleteBook: (_id: string, mainText: string) => void;
 }
 
 const TableBook = (props: IProps) => {
-  const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, setOpenModalUpdate, actionRef } = props;
+  const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, setOpenModalUpdate, actionRef, handleDeleteBook } =
+    props;
 
   const columns: ProColumns<IBookTable>[] = [
     {
@@ -101,7 +103,7 @@ const TableBook = (props: IProps) => {
             description={"Xoá tài khoản này"}
             okText="OK"
             cancelText="Cancel"
-            onConfirm={() => console.log(record._id)}
+            onConfirm={() => handleDeleteBook(record._id, record.mainText)}
           >
             <Button key="delete" type="link" danger icon={<DeleteOutlined />}>
               Delete
