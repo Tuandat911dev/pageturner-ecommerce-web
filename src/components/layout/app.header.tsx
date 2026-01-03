@@ -1,185 +1,198 @@
 import { useState } from "react";
 import { FaReact } from "react-icons/fa";
-import { VscSearchFuzzy } from "react-icons/vsc";
-import { Divider, Badge, Drawer, Avatar, Popover, Empty } from "antd";
-import { Dropdown, Space } from "antd";
-import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
+import { FiShoppingCart, FiBook, FiUser, FiLogOut, FiLayout } from "react-icons/fi";
+import { AiOutlineMenu } from "react-icons/ai";
+import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space } from "antd";
+import { useNavigate, Link, useLocation, NavLink } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
-// import ManageAccount from "../client/account";
-// import { isMobile } from "react-device-detect";
 
-interface IProps {
-  searchTerm: string;
-  setSearchTerm: (v: string) => void;
-}
+const { Search } = Input;
 
 const AppHeader = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  // const [openManageAccount, setOpenManageAccount] = useState<boolean>(false);
-
   const { isAuthenticated, user, setUser, setIsAuthenticated } = useCurrentApp();
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
-    //todo
     const res = await logoutAPI();
     if (res.data) {
       setUser(null);
       setIsAuthenticated(false);
       localStorage.removeItem("access_token");
+      setOpenDrawer(false);
       navigate("/");
     }
   };
 
-  const items = [
+  const userMenuItems = [
     {
-      label: (
-        <label style={{ cursor: "pointer" }} onClick={() => setOpenManageAccount(true)}>
-          Quản lý tài khoản
-        </label>
-      ),
+      label: "Quản lý tài khoản",
       key: "account",
+      icon: <FiUser />,
+      onClick: () => navigate("/account"),
     },
     {
       label: <Link to="/history">Lịch sử mua hàng</Link>,
       key: "history",
+      icon: <FiBook />,
     },
+    ...(user?.role === "ADMIN"
+      ? [{ label: <Link to="/admin">Trang quản trị</Link>, key: "admin", icon: <FiLayout /> }]
+      : []),
+    { type: "divider" as const },
     {
-      label: (
-        <label style={{ cursor: "pointer" }} onClick={() => handleLogout()}>
-          Đăng xuất
-        </label>
-      ),
+      label: "Đăng xuất",
       key: "logout",
+      icon: <FiLogOut />,
+      danger: true,
+      onClick: handleLogout,
     },
   ];
-  if (user?.role === "ADMIN") {
-    items.unshift({
-      label: <Link to="/admin">Trang quản trị</Link>,
-      key: "admin",
-    });
-  }
 
   const urlAvatar = `${import.meta.env.VITE_BACKEND_URL}/images/avatar/${user?.avatar}`;
-
-  const contentPopover = () => {
-    return (
-      <div className="pop-cart-body">
-        <div className="pop-cart-content">
-          {/* {carts?.map((book, index) => {
-            return (
-              <div className="book" key={`book-${index}`}>
-                <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${book?.detail?.thumbnail}`} />
-                <div>{book?.detail?.mainText}</div>
-                <div className="price">
-                  {new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(
-                    book?.detail?.price ?? 0
-                  )}
-                </div>
-              </div>
-            );
-          })} */}
-        </div>
-        {/* {carts.length > 0 ? (
-          <div className="pop-cart-footer">
-            <button onClick={() => navigate("/order")}>Xem giỏ hàng</button>
-          </div>
-        ) : (
-          <Empty description="Không có sản phẩm trong giỏ hàng" />
-        )} */}
-      </div>
-    );
-  };
 
   return (
     <>
       <div className="header-container">
         <header className="page-header">
-          <div className="page-header__top">
-            <div
-              className="page-header__toggle"
-              onClick={() => {
-                setOpenDrawer(true);
-              }}
-            >
-              ☰
+          {/* LEFT: LOGO & NAVIGATION */}
+          <div className="page-header__left">
+            <div className="logo" onClick={() => navigate("/")}>
+              <FaReact className="icon-react" />
+              <span>PageTurner</span>
             </div>
-            <div className="page-header__logo">
-              <span className="logo">
-                <span onClick={() => navigate("/")}>
-                  {" "}
-                  <FaReact className="rotate icon-react" />
-                  Pageturner
-                </span>
-
-                <VscSearchFuzzy className="icon-search" />
-              </span>
-              <input
-                className="input-search"
-                type={"text"}
-                placeholder="Bạn tìm gì hôm nay"
-                // value={props.searchTerm}
-                // onChange={(e) => props.setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-          <nav className="page-header__bottom">
-            <ul id="navigation" className="navigation">
-              {/* <li className="navigation__item">
-                {!isMobile ? (
-                  <Popover
-                    className="popover-carts"
-                    placement="topRight"
-                    rootClassName="popover-carts"
-                    title={"Sản phẩm mới thêm"}
-                    content={contentPopover}
-                    arrow={true}
-                  >
-                    <Badge count="10" size={"small"} showZero>
-                      <FiShoppingCart className="icon-cart" />
-                    </Badge>
-                  </Popover>
-                ) : (
-                  <Badge count="10" size={"small"} showZero onClick={() => navigate("/order")}>
-                    <FiShoppingCart className="icon-cart" />
-                  </Badge>
-                )}
-              </li> */}
-              <li className="navigation__item mobile">
-                <Divider type="vertical" />
+            <ul className="navigation-menu">
+              <li>
+                <NavLink to="/" className={() => (location.pathname === "/" ? "active-link" : "")}>
+                  Trang chủ
+                </NavLink>
               </li>
-              <li className="navigation__item mobile">
-                {!isAuthenticated ? (
-                  <>
-                    <span onClick={() => navigate("/login")}>Đăng nhập</span>
-                    <Divider type="vertical" />
-                    <span onClick={() => navigate("/register")}>Đăng ký</span>
-                  </>
-                ) : (
-                  <Dropdown menu={{ items }} trigger={["click"]}>
-                    <Space>
-                      <Avatar src={urlAvatar} />
-                      {user?.fullName}
-                    </Space>
-                  </Dropdown>
-                )}
+              <li>
+                <NavLink to="/book" className={() => (location.pathname === "/book" ? "active-link" : "")}>
+                  Sản phẩm
+                </NavLink>
               </li>
             </ul>
-          </nav>
+          </div>
+
+          {/* CENTER: SEARCH */}
+          <div className="page-header__center">
+            <Search
+              placeholder="Tìm cuốn sách bạn yêu thích..."
+              allowClear
+              onSearch={(v) => console.log("Search:", v)}
+              size="middle"
+            />
+          </div>
+
+          {/* RIGHT: CART & AUTH */}
+          <div className="page-header__right">
+            {isAuthenticated && (
+              <div className="desktop-cart">
+                <Badge count={5} size="small" showZero>
+                  <FiShoppingCart className="icon-cart" onClick={() => navigate("/order")} />
+                </Badge>
+              </div>
+            )}
+
+            <div className="user-section">
+              {!isAuthenticated ? (
+                <Space>
+                  <Button type="text" onClick={() => navigate("/login")}>
+                    Đăng nhập
+                  </Button>
+                  <Button type="primary" onClick={() => navigate("/register")}>
+                    Đăng ký
+                  </Button>
+                </Space>
+              ) : (
+                <Dropdown menu={{ items: userMenuItems }} trigger={["click"]} placement="bottomRight">
+                  <Space style={{ cursor: "pointer" }}>
+                    <Avatar src={urlAvatar} />
+                    <span className="user-name">{user?.fullName}</span>
+                  </Space>
+                </Dropdown>
+              )}
+            </div>
+
+            <AiOutlineMenu className="mobile-menu-btn" onClick={() => setOpenDrawer(true)} />
+          </div>
         </header>
       </div>
-      <Drawer title="Menu chức năng" placement="left" onClose={() => setOpenDrawer(false)} open={openDrawer}>
-        <p>Quản lý tài khoản</p>
-        <Divider />
 
-        <p onClick={() => handleLogout()}>Đăng xuất</p>
-        <Divider />
+      {/* MOBILE DRAWER */}
+      <Drawer
+        title="PageTurner Menu"
+        placement="right"
+        onClose={() => setOpenDrawer(false)}
+        open={openDrawer}
+        width={280}
+      >
+        <div className="drawer-content">
+          <Search placeholder="Tìm kiếm..." style={{ marginBottom: 20 }} />
+
+          <ul className="drawer-menu-list">
+            <li onClick={() => setOpenDrawer(false)}>
+              <Link to="/">Trang chủ</Link>
+            </li>
+            <li onClick={() => setOpenDrawer(false)}>
+              <Link to="/product">Sản phẩm</Link>
+            </li>
+
+            <Divider style={{ margin: "10px 0" }} />
+
+            {isAuthenticated ? (
+              <>
+                <li
+                  onClick={() => {
+                    navigate("/order");
+                    setOpenDrawer(false);
+                  }}
+                >
+                  <Badge count={5} size="small">
+                    <FiShoppingCart style={{ fontSize: 18 }} />
+                  </Badge>
+                  <span>Giỏ hàng</span>
+                </li>
+
+                <li onClick={() => setOpenDrawer(false)}>
+                  <Link to="/history">Lịch sử mua hàng</Link>
+                </li>
+                {user?.role === "ADMIN" && (
+                  <li onClick={() => setOpenDrawer(false)}>
+                    <Link to="/admin">Trang quản trị</Link>
+                  </li>
+                )}
+                <Divider />
+                <li onClick={handleLogout} style={{ color: "#ff4d4f" }}>
+                  <FiLogOut /> Đăng xuất
+                </li>
+              </>
+            ) : (
+              <>
+                <li
+                  onClick={() => {
+                    navigate("/login");
+                    setOpenDrawer(false);
+                  }}
+                >
+                  Đăng nhập
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/register");
+                    setOpenDrawer(false);
+                  }}
+                >
+                  Đăng ký
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
       </Drawer>
-
-      {/* <ManageAccount isModalOpen={openManageAccount} setIsModalOpen={setOpenManageAccount} /> */}
     </>
   );
 };

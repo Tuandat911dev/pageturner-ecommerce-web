@@ -12,7 +12,7 @@ import { App, ConfigProvider } from "antd";
 import { AppProvider } from "components/context/app.context";
 import ProtectedRoute from "@/components/auth";
 import NotFoundPage from "pages/error/notFound";
-import LayoutAdmin from "components/layout/layout.admin";
+import LayoutAdmin from "@/layout.admin";
 import DashBoardPage from "pages/admin/dashboard";
 import ManageBookPage from "pages/admin/manage.book";
 import ManageOrderPage from "pages/admin/manage.order";

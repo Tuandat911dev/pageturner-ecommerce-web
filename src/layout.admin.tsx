@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   AppstoreOutlined,
   ExceptionOutlined,
@@ -11,7 +11,7 @@ import {
 import { Layout, Menu, Dropdown, Space, Avatar } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useCurrentApp } from "../context/app.context";
+import { useCurrentApp } from "./components/context/app.context";
 import type { MenuProps } from "antd";
 import { logoutAPI } from "@/services/api";
 type MenuItem = Required<MenuProps>["items"][number];
@@ -26,33 +26,35 @@ const LayoutAdmin = () => {
 
   const location = useLocation();
 
-  const items: MenuItem[] = [
-    {
-      label: <Link to="/admin">Dashboard</Link>,
-      key: "/admin",
-      icon: <AppstoreOutlined />,
-    },
-    {
-      label: <Link to="/admin/user">Manage Users</Link>,
-      key: "/admin/user",
-      icon: <UserOutlined />,
-    },
-    {
-      label: <Link to="/admin/book">Manage Books</Link>,
-      key: "/admin/book",
-      icon: <ExceptionOutlined />,
-    },
-    {
-      label: <Link to="/admin/order">Manage Orders</Link>,
-      key: "/admin/order",
-      icon: <DollarCircleOutlined />,
-    },
-  ];
+  const items: MenuItem[] = useMemo(() => {
+   return [
+      {
+        label: <Link to="/admin">Dashboard</Link>,
+        key: "/admin",
+        icon: <AppstoreOutlined />,
+      },
+      {
+        label: <Link to="/admin/user">Manage Users</Link>,
+        key: "/admin/user",
+        icon: <UserOutlined />,
+      },
+      {
+        label: <Link to="/admin/book">Manage Books</Link>,
+        key: "/admin/book",
+        icon: <ExceptionOutlined />,
+      },
+      {
+        label: <Link to="/admin/order">Manage Orders</Link>,
+        key: "/admin/order",
+        icon: <DollarCircleOutlined />,
+      },
+    ];
+  }, []);
 
   useEffect(() => {
-    const active: any = items.find((item) => location.pathname === (item!.key as any)) ?? "/admin";
+    const active: any = items.find((item) => location.pathname === (item!.key)) ?? "/admin";
     setActiveMenu(active.key);
-  }, [location]);
+  }, [location, items]);
 
   const handleLogout = async () => {
     //todo
