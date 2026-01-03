@@ -6,6 +6,11 @@ const instance = axios.create({
   withCredentials: true, // set cookie
 });
 
+const handleForceLogout = () => {
+  localStorage.removeItem("access_token");
+  window.location.href = "/";
+};
+
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
@@ -47,7 +52,6 @@ instance.interceptors.response.use(
       if (!isRefreshing) {
         isRefreshing = true;
         originalRequest._retry = true; // Đánh dấu request đầu tiên
-        console.log("hết hạn lần 1");
 
         try {
           const res = await refreshTokenAPI();
@@ -63,13 +67,13 @@ instance.interceptors.response.use(
             originalRequest.headers["Authorization"] = `bearer ${newAccessToken}`;
 
             return instance(originalRequest);
+          } else {
+            throw new Error("Error when call api refresh token");
           }
         } catch (refreshError) {
           isRefreshing = false;
           subscribers = []; // Xoá hàng đợi khi refresh thất bại
-
-          // => Logout
-
+          handleForceLogout();
           return Promise.reject(refreshError);
         }
       }

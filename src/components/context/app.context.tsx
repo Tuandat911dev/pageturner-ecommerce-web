@@ -23,20 +23,26 @@ const AppProvider = (props: TProps) => {
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchAccount = () => {
+    const initApp = async () => {
       setIsAppLoading(true);
-      setTimeout(async () => {
+      try {
         const res = await fetchAccountAPI();
-        if (res.data) {
+        if (res && res.data) {
           setUser(res.data.user);
-          setIsAuthenticated(true);
         }
+      } catch {
+        setUser(null);
+      } finally {
         setIsAppLoading(false);
-      }, 1500);
+      }
     };
 
-    fetchAccount();
-  }, [setUser, setIsAuthenticated, setIsAppLoading]);
+    if (isAuthenticated) {
+      initApp();
+    } else {
+      setIsAppLoading(false);
+    }
+  }, [isAuthenticated]);
 
   return (
     <>
