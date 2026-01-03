@@ -1,10 +1,12 @@
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, Dropdown, Popconfirm, Tag } from "antd";
+import { Button, Popconfirm, Tag } from "antd";
 import { Image } from "antd";
 import { dateRangeValidate, formatDate, formatVND } from "@/services/helper";
 import { getBookAPI } from "@/services/api";
+import ExportBook from "./export.book";
+import { useState } from "react";
 
 interface IProps {
   setOpenBookDetail: (v: boolean) => void;
@@ -18,6 +20,8 @@ interface IProps {
 const TableBook = (props: IProps) => {
   const { setOpenBookDetail, setCurrentBook, setOpenModalCreate, setOpenModalUpdate, actionRef, handleDeleteBook } =
     props;
+
+  const [bookData, setBookData] = useState<IBookTable[]>([]);
 
   const columns: ProColumns<IBookTable>[] = [
     {
@@ -184,6 +188,10 @@ const TableBook = (props: IProps) => {
 
         const res = await getBookAPI(query);
 
+        if (res.data) {
+          setBookData(res.data.result);
+        }
+
         return {
           data: res.data?.result,
           success: true,
@@ -206,32 +214,10 @@ const TableBook = (props: IProps) => {
       dateFormatter="string"
       headerTitle="Manage Book"
       toolBarRender={() => [
-        <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
+        <ExportBook key="export" bookData={bookData} />,
+        <Button key="add" icon={<PlusOutlined />} type="primary" onClick={() => setOpenModalCreate(true)}>
           Thêm mới
         </Button>,
-        <Dropdown
-          key="menu"
-          menu={{
-            items: [
-              {
-                label: "1st item",
-                key: "1",
-              },
-              {
-                label: "2nd item",
-                key: "2",
-              },
-              {
-                label: "3rd item",
-                key: "3",
-              },
-            ],
-          }}
-        >
-          <Button>
-            <EllipsisOutlined />
-          </Button>
-        </Dropdown>,
       ]}
     />
   );
