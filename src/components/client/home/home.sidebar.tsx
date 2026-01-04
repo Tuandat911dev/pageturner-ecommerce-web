@@ -1,11 +1,25 @@
+import { getBookCategory } from "@/services/api";
 import { FilterOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Col, Divider, Form, InputNumber, Row, Typography, type InputNumberProps } from "antd";
+import { useEffect, useState } from "react";
 
 const { Text } = Typography;
 
 const HomeSidebar = () => {
   const [form] = Form.useForm();
+  const [categories, setCategories] = useState<string[]>([]);
   const fromPrice = Form.useWatch(["range", "from"], form);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const res = await getBookCategory();
+      if (res.data) {
+        setCategories(res.data);
+      }
+    };
+
+    getCategories();
+  }, []);
 
   const formatter: InputNumberProps<number>["formatter"] = (value) => {
     if (!value) return "";
@@ -30,7 +44,7 @@ const HomeSidebar = () => {
         <Form.Item name="category" label={<Text strong>Danh mục sản phẩm</Text>}>
           <Checkbox.Group style={{ width: "100%" }}>
             <Row>
-              {["Arts", "Business", "Comics", "Education"].map((item) => (
+              {categories.map((item) => (
                 <Col span={24} key={item} style={{ marginBottom: 10 }}>
                   <Checkbox value={item}>{item}</Checkbox>
                 </Col>
