@@ -232,9 +232,13 @@ const CreateBook = (props: IProps) => {
                 rules={[{ required: true, message: APP_MESSAGES.BOOK.VALIDATION.REQUIRED.PRICE }]}
               >
                 <InputNumber
+                  controls={false}
                   style={{ width: "100%" }}
-                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                  parser={(value) => value!.replace(/\./g, "")}
+                  formatter={(value) => `${value}`.replace(/-/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  parser={(value) => {
+                    const res = value ? value.replace(/\./g, "") : "";
+                    return Number(res) as number;
+                  }}
                   addonAfter="đ"
                 />
               </Form.Item>
@@ -261,12 +265,28 @@ const CreateBook = (props: IProps) => {
                 name="quantity"
                 rules={[{ required: true, message: APP_MESSAGES.BOOK.VALIDATION.REQUIRED.QUANTITY }]}
               >
-                <InputNumber style={{ width: "100%" }} min={1} />
+                <InputNumber
+                  controls={false}
+                  style={{ width: "100%" }}
+                  formatter={(value) => `${value}`.replace(/-/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  parser={(value) => {
+                    const res = value ? value.replace(/\./g, "") : "";
+                    return Number(res) as number;
+                  }}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item<FieldType> label="Đã bán" name="sold">
-                <InputNumber style={{ width: "100%" }} min={0} />
+                <InputNumber
+                  controls={false}
+                  style={{ width: "100%" }}
+                  formatter={(value) => `${value}`.replace(/-/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                  parser={(value) => {
+                    const res = value ? value.replace(/\./g, "") : "";
+                    return Number(res) as number;
+                  }}
+                />
               </Form.Item>
             </Col>
 
