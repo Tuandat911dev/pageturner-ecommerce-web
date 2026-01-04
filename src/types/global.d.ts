@@ -81,6 +81,5 @@ declare global {
     category: string;
     createdAt: Date;
     updatedAt: Date;
-    __v: 0;
   }
 }
