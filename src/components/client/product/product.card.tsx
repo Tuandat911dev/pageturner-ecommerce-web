@@ -11,28 +11,25 @@ const ProductCard = (props: IProps) => {
   const { book } = props;
 
   const handleDisplaySold = (sold: number) => {
-    let n = "";
-    if (sold > 1000) {
-      const soldPrice = String(sold);
-      if (soldPrice.length > 4) {
-        n = "K";
-        const first = soldPrice.charAt(0);
-        const middle = soldPrice.slice(1, -3).charAt(0);
-        return `${first}${n}${middle || ""}`;
-      } else if (soldPrice.length > 7) {
-        n = "M";
-        const first = soldPrice.charAt(0);
-        const middle = soldPrice.slice(1, -6).charAt(0);
-        return `${first}${n}${middle || ""}`;
-      } else {
-        n = "B";
-        const first = soldPrice.charAt(0);
-        const middle = soldPrice.slice(1, -9).charAt(0);
-        return `${first}${n}${middle || ""}`;
-      }
+    if (!sold) return 0;
+    if (sold < 1000) return sold;
+
+    if (sold >= 1000 && sold < 1000000) {
+      const kValue = sold / 1000;
+      return kValue.toFixed(1).replace(/\.0$/, "") + "K";
     }
 
-    return book.sold;
+    if (sold >= 1000000 && sold < 1000000000) {
+      const mValue = sold / 1000000;
+      return mValue.toFixed(1).replace(/\.0$/, "") + "M";
+    }
+
+    if (sold >= 1000000000) {
+      const bValue = sold / 1000000000;
+      return bValue.toFixed(1).replace(/\.0$/, "") + "B";
+    }
+
+    return sold;
   };
 
   return (
