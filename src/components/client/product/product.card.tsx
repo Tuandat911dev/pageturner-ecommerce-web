@@ -1,5 +1,6 @@
 import { formatVND } from "@/services/helper";
 import { Card, Rate, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const { Text, Paragraph } = Typography;
 
@@ -9,6 +10,7 @@ interface IProps {
 
 const ProductCard = (props: IProps) => {
   const { book } = props;
+  const navigate = useNavigate();
 
   const handleDisplaySold = (sold: number) => {
     if (!sold) return 0;
@@ -32,10 +34,15 @@ const ProductCard = (props: IProps) => {
     return sold;
   };
 
+  const handleOnClick = (_id: string) => {
+    navigate(`/book/${_id}`);
+  };
+
   return (
     <Card
       className="product-card"
       cover={<img alt="example" src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${book.thumbnail}`} />}
+      onClick={() => handleOnClick(book._id)}
     >
       <Paragraph ellipsis={{ rows: 2 }} strong className="product-title">
         {book.mainText}
