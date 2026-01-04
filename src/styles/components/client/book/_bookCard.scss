@@ -1,3 +1,5 @@
+@use "../../../abstracts";
+
 .product-card {
   height: 100%;
   cursor: pointer;
@@ -25,16 +27,34 @@
   }
 
   .product-title {
-    height: 40px;
+    height: 50px;
     margin-bottom: 8px;
     font-weight: 500;
+
+    @include abstracts.breakpoint(md) {
+      height: 40px;
+      margin-bottom: 5px;
+      font-weight: 400;
+    }
+
+    @include abstracts.breakpoint(sm) {
+      height: 40px;
+      margin-bottom: 5px;
+      font-weight: 400;
+      font-size: 1.25rem;
+    }
   }
 
   .product-price {
     color: #ee4d2d;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 600;
     margin-right: 8px;
+
+    @include abstracts.breakpoint(sm) {
+      height: 40px;
+      font-size: 1.3rem;
+    }
   }
 
   .product-info-footer {
@@ -42,7 +62,28 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    font-size: 12px;
-    color: #00000073;
+
+    @include abstracts.breakpoint(sm) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  .product-rating {
+    font-size: 1.3rem;
+
+    @include abstracts.breakpoint(sm) {
+      font-size: 0.8rem;
+    }
+  }
+
+  .product-sold {
+    font-size: 1.4rem;
+    color: #0000008a;
+
+    @include abstracts.breakpoint(sm) {
+      font-size: 1rem;
+    }
   }
 }

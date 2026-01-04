@@ -2,15 +2,28 @@ import { Col, Row, Tabs } from "antd";
 import HomeSidebar from "components/client/home/home.sidebar";
 import HomeSlider from "components/client/home/home.slider";
 import HomeListProduct from "components/client/home/home.list.product";
+import { useEffect, useState } from "react";
+import { getBookAPI } from "@/services/api";
 
 const HomePage = () => {
-  const mockData = Array(10).fill({
-    _id: "1",
-    mainText: "Tên cuốn sách siêu hay và hấp dẫn người đọc",
-    price: 150000,
-    sold: 100,
-    thumbnail: "default.png",
-  });
+  const [bookData, setBookData] = useState<IBookTable[]>([]);
+  const [currentPage, setCurrentPage] = useState<string>("1");
+  const [total, setTotal] = useState<number>(0);
+  const pageSize = 5;
+
+  useEffect(() => {
+    const getBookData = async () => {
+      let query = "";
+      query += `current=${currentPage}&pageSize=${pageSize}`;
+      const res = await getBookAPI(query);
+      if (res.data) {
+        setBookData(res.data.result);
+        setTotal(res.data.meta.total);
+      }
+    };
+
+    getBookData();
+  }, [currentPage, pageSize]);
 
   return (
     <div className="home-page-container">
@@ -32,7 +45,13 @@ const HomePage = () => {
                 { key: "4", label: "Giá cao đến thấp" },
               ]}
             />
-            <HomeListProduct data={mockData} />
+            <HomeListProduct
+              bookData={bookData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              total={total}
+              pageSize={pageSize}
+            />
           </div>
         </Col>
       </Row>

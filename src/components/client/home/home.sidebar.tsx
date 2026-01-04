@@ -28,6 +28,7 @@ const HomeSidebar = () => {
     return `${end ? `${v},${end}` : `${v}`}`;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const parser = (value: any) => value.replace(/\./g, "");
 
   return (
