@@ -9,13 +9,15 @@ const HomePage = () => {
   const [bookData, setBookData] = useState<IBookTable[]>([]);
   const [currentPage, setCurrentPage] = useState<string>("1");
   const [total, setTotal] = useState<number>(0);
+  const [queryTab, setQueryTab] = useState<string>("");
   const [queryFilter, setQueryFilter] = useState<string>("");
-  const pageSize = 5;
+  const pageSize = 8;
 
   useEffect(() => {
     const getBookData = async () => {
       let query = "";
       query += `current=${currentPage}&pageSize=${pageSize}`;
+      query += queryTab;
       query += queryFilter;
       const res = await getBookAPI(query);
       if (res.data) {
@@ -25,7 +27,7 @@ const HomePage = () => {
     };
 
     getBookData();
-  }, [currentPage, pageSize, queryFilter]);
+  }, [currentPage, pageSize, queryTab, queryFilter]);
 
   const handleChangeTab = (activeKey: string) => {
     let query = "";
@@ -47,7 +49,7 @@ const HomePage = () => {
         break;
     }
 
-    setQueryFilter(query);
+    setQueryTab(query);
   };
 
   return (
@@ -56,7 +58,7 @@ const HomePage = () => {
 
       <Row gutter={[20, 20]} className="main-content">
         <Col lg={5} md={0} sm={0} xs={0} className="left-sidebar">
-          <HomeSidebar />
+          <HomeSidebar setQueryFilter={setQueryFilter} queryFilter={queryFilter} />
         </Col>
 
         <Col lg={19} md={24} sm={24} xs={24}>

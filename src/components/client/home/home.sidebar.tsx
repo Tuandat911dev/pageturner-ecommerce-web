@@ -5,10 +5,18 @@ import { useEffect, useState } from "react";
 
 const { Text } = Typography;
 
-const HomeSidebar = () => {
+interface IProps {
+  setQueryFilter: (v: string) => void;
+  queryFilter: string;
+}
+
+const HomeSidebar = (props: IProps) => {
+  const { setQueryFilter, queryFilter } = props;
   const [form] = Form.useForm();
   const [categories, setCategories] = useState<string[]>([]);
+  const categoryValue = Form.useWatch<string[]>("category", form);
   const fromPrice = Form.useWatch(["range", "from"], form);
+  const toPrice = Form.useWatch(["range", "to"], form);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -20,6 +28,40 @@ const HomeSidebar = () => {
 
     getCategories();
   }, []);
+
+  useEffect(() => {
+    const handleFilterCategory = () => {
+      let query = queryFilter;
+      if (categoryValue && categoryValue.length > 0) {
+        query += "&category=";
+
+        for (let i = 0; i < categoryValue.length; i++) {
+          if (categoryValue.length === 1) {
+            query += categoryValue[i];
+          } else {
+            if (i === categoryValue.length - 1) {
+              query += categoryValue[i];
+              break;
+            }
+            query += categoryValue[i] + ",";
+          }
+        }
+      }
+      setQueryFilter(query);
+    };
+
+    handleFilterCategory();
+  }, [categoryValue, setQueryFilter]);
+
+  const handleFilterPrice = () => {
+    let query = queryFilter;
+    if (fromPrice && toPrice) {
+      query += `&price>=${fromPrice}&price<=${toPrice}`;
+      setQueryFilter(query);
+    } else {
+      return;
+    }
+  };
 
   const formatter: InputNumberProps<number>["formatter"] = (value) => {
     if (!value) return "";
@@ -37,7 +79,13 @@ const HomeSidebar = () => {
         <Text strong>
           <FilterOutlined /> Bộ lọc tìm kiếm
         </Text>
-        <ReloadOutlined style={{ cursor: "pointer", color: "#1677ff" }} onClick={() => form.resetFields()} />
+        <ReloadOutlined
+          style={{ cursor: "pointer", color: "#1677ff" }}
+          onClick={() => {
+            form.resetFields();
+            setQueryFilter("");
+          }}
+        />
       </div>
       <Divider />
 
@@ -82,7 +130,7 @@ const HomeSidebar = () => {
             </Form.Item>
           </div>
 
-          <Button type="primary" style={{ width: "100%", marginTop: 20 }} onClick={() => form.submit()}>
+          <Button type="primary" style={{ width: "100%", marginTop: 20 }} onClick={handleFilterPrice}>
             Áp dụng
           </Button>
         </Form.Item>
