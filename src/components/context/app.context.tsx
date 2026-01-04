@@ -29,6 +29,7 @@ const AppProvider = (props: TProps) => {
         const res = await fetchAccountAPI();
         if (res && res.data) {
           setUser(res.data.user);
+          setIsAuthenticated(true);
         }
       } catch {
         setUser(null);
@@ -37,12 +38,12 @@ const AppProvider = (props: TProps) => {
       }
     };
 
-    if (isAuthenticated) {
+    if (localStorage.getItem("access_token")) {
       initApp();
     } else {
       setIsAppLoading(false);
     }
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <>

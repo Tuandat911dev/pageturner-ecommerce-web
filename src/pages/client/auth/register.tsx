@@ -44,7 +44,7 @@ const RegisterPage = () => {
       }
 
       setLoading(false);
-    }, 3000);
+    }, 1500);
   };
 
   const onFinishFailed: FormProps<IRegister>["onFinishFailed"] = (errorInfo) => {
