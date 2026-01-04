@@ -14,7 +14,7 @@ const ProductCard = ({ item }: any) => (
     <Text type="danger" style={{ fontSize: 16 }}>
       {formatVND(item.price)}
     </Text>
-    <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
       <Rate disabled defaultValue={5} style={{ fontSize: 10 }} />
       <Text style={{ fontSize: 12 }}>Đã bán {item.sold}</Text>
     </div>
