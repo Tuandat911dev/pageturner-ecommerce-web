@@ -8,8 +8,15 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ModalGallery from "@/components/client/product/product.gallery.modal";
 import { formatDisplaySold } from "@/services/helper";
 import ProductLoading from "@/components/client/product/product.loading";
+import { useCurrentApp } from "@/components/context/app.context";
 
 type TInputNumber = "increase" | "decrease";
+
+interface ICart {
+  detail: IBookTable;
+  quantity: number;
+  _id: string;
+}
 
 const BookPage = () => {
   const { bookId } = useParams();
@@ -21,6 +28,7 @@ const BookPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const { cart, setCart } = useCurrentApp();
 
   useEffect(() => {
     const getBook = () => {
@@ -67,6 +75,27 @@ const BookPage = () => {
       setCurrentQuantity(currentQuantity + 1);
     } else {
       setCurrentQuantity(currentQuantity - 1);
+    }
+  };
+
+  const handleAddToCart = (_id: string, book: IBookTable) => {
+    const cartData = localStorage.getItem("carts");
+    if (cartData) {
+      let carts = JSON.parse(cartData) as ICart[];
+      const existedCart = carts.find((cart) => cart._id === _id);
+      if (existedCart) {
+        existedCart.quantity += currentQuantity;
+      } else {
+        carts = [...carts, { detail: book, quantity: currentQuantity, _id: _id }];
+      }
+
+      setCart(carts);
+      localStorage.setItem("carts", JSON.stringify(carts));
+      setCurrentQuantity(1);
+    } else {
+      const carts = [{ detail: book, quantity: currentQuantity, _id: _id }];
+      localStorage.setItem("carts", JSON.stringify(carts));
+      setCart(carts);
     }
   };
 
@@ -170,7 +199,7 @@ const BookPage = () => {
                       <Button
                         size="large"
                         icon={<ShoppingCartOutlined />}
-                        onClick={() => message.success("Đã thêm vào giỏ")}
+                        onClick={() => handleAddToCart(bookData._id, bookData)}
                         className="add-to-cart-btn"
                       >
                         Thêm Vào Giỏ Hàng
