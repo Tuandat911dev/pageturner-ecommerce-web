@@ -63,18 +63,6 @@ const AppHeader = () => {
               <FaReact className="icon-react" />
               <span>PageTurner</span>
             </div>
-            <ul className="navigation-menu">
-              <li>
-                <NavLink to="/" className={() => (location.pathname === "/" ? "active-link" : "")}>
-                  Trang chủ
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/book" className={() => (location.pathname === "/book" ? "active-link" : "")}>
-                  Sản phẩm
-                </NavLink>
-              </li>
-            </ul>
           </div>
 
           {/* CENTER: SEARCH */}
@@ -124,7 +112,7 @@ const AppHeader = () => {
 
       {/* MOBILE DRAWER */}
       <Drawer
-        title="PageTurner Menu"
+        title="PageTurner"
         placement="right"
         onClose={() => setOpenDrawer(false)}
         open={openDrawer}
@@ -134,13 +122,6 @@ const AppHeader = () => {
           <Search placeholder="Tìm kiếm..." style={{ marginBottom: 20 }} />
 
           <ul className="drawer-menu-list">
-            <li onClick={() => setOpenDrawer(false)}>
-              <Link to="/">Trang chủ</Link>
-            </li>
-            <li onClick={() => setOpenDrawer(false)}>
-              <Link to="/product">Sản phẩm</Link>
-            </li>
-
             <Divider style={{ margin: "10px 0" }} />
 
             {isAuthenticated ? (
