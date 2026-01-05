@@ -2,12 +2,14 @@ import { getBookByIdAPI } from "@/services/api";
 import { App, Breadcrumb, Button, Col, InputNumber, Rate, Row, Typography } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ShoppingCartOutlined, CreditCardOutlined, HomeOutlined } from "@ant-design/icons";
+import { ShoppingCartOutlined, CreditCardOutlined, HomeOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ModalGallery from "@/components/client/product/product.gallery.modal";
 import { formatDisplaySold } from "@/services/helper";
 import ProductLoading from "@/components/client/product/product.loading";
+
+type TInputNumber = "increase" | "decrease";
 
 const BookPage = () => {
   const { bookId } = useParams();
@@ -59,6 +61,14 @@ const BookPage = () => {
     });
     return res;
   }, [bookData]);
+
+  const handleChangQuantity = (v: TInputNumber) => {
+    if (v === "increase") {
+      setCurrentQuantity(currentQuantity + 1);
+    } else {
+      setCurrentQuantity(currentQuantity - 1);
+    }
+  };
 
   return (
     <>
@@ -128,13 +138,31 @@ const BookPage = () => {
 
                     <div className="quantity-control">
                       <Text className="label">Số Lượng</Text>
-                      <InputNumber
-                        min={1}
-                        max={bookData.quantity}
-                        value={currentQuantity}
-                        onChange={(value) => setCurrentQuantity(value || 1)}
-                        className="input-quantity"
-                      />
+                      <div className="quantity__input-wrapper">
+                        <button
+                          className="quantity__input-btn decrease"
+                          onClick={() => handleChangQuantity("decrease")}
+                          disabled={currentQuantity <= 1}
+                        >
+                          <MinusOutlined />
+                        </button>
+                        <InputNumber
+                          min={1}
+                          max={bookData.quantity}
+                          value={currentQuantity}
+                          onChange={(value) => setCurrentQuantity(value || 1)}
+                          className="input-quantity"
+                          controls={false}
+                        />
+                        <button
+                          className="quantity__input-btn increase"
+                          onClick={() => handleChangQuantity("increase")}
+                          disabled={currentQuantity >= bookData.quantity}
+                        >
+                          <PlusOutlined />
+                        </button>
+                      </div>
+
                       <Text className="available-stock">{bookData.quantity} sản phẩm có sẵn</Text>
                     </div>
 
