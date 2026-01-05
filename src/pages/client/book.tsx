@@ -162,7 +162,6 @@ const BookPage = () => {
               </Row>
             </div>
           </div>
-
           <ModalGallery
             isOpen={isModalOpen}
             handleClose={() => setIsModalOpen(false)}
