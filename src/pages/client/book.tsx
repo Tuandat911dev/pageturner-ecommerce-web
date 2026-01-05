@@ -102,7 +102,7 @@ const BookPage = () => {
                 </Title>
 
                 <div className="author-section">
-                  <Text type="secondary">Tác giả: </Text>
+                  <Text type="secondary">Tác Giả: </Text>
                   <Text strong className="author-name">
                     {bookData.author}
                   </Text>
@@ -111,7 +111,9 @@ const BookPage = () => {
                 <div className="rating-and-sold">
                   <Rate allowHalf disabled defaultValue={5} className="product-rating" />
                   <span className="separator"></span>
-                  <Text className="product-sold">Đã bán {formatSold(bookData.sold)}</Text>
+                  <Text className="product-sold">
+                    Đã Bán <span>{formatSold(bookData.sold)}</span>
+                  </Text>
                 </div>
 
                 <div className="price-section">
@@ -119,7 +121,7 @@ const BookPage = () => {
                 </div>
 
                 <div className="quantity-control">
-                  <Text className="label">Số lượng</Text>
+                  <Text className="label">Số Lượng</Text>
                   <InputNumber
                     min={1}
                     max={bookData.quantity}
@@ -137,7 +139,7 @@ const BookPage = () => {
                     onClick={() => message.success("Đã thêm vào giỏ")}
                     className="add-to-cart-btn"
                   >
-                    Thêm vào giỏ hàng
+                    Thêm Vào Giỏ Hàng
                   </Button>
                   <Button
                     size="large"
@@ -146,7 +148,7 @@ const BookPage = () => {
                     onClick={() => message.info("Chức năng mua ngay")}
                     className="buy-now-btn"
                   >
-                    Mua ngay
+                    Mua Ngay
                   </Button>
                 </div>
               </div>
@@ -160,6 +162,7 @@ const BookPage = () => {
         handleClose={() => setIsModalOpen(false)}
         items={images}
         currentIndex={activeIndex}
+        mainText={bookData.mainText}
       />
     </>
   );

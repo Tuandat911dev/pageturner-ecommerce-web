@@ -1,21 +1,38 @@
+@use "../../../abstracts";
+
+.original-image,
+.thumbnail-image {
+  cursor: pointer;
+}
+.thumbnail-image:hover,
+.thumbnail-image:focus,
+.thumbnail-image.active {
+  outline: none;
+  border: 2px solid #1677ff;
+}
+
+.image-gallery-svg {
+  width: 30px !important;
+  height: auto !important;
+
+  @include abstracts.breakpoint(sm) {
+    width: 10px !important;
+  }
+}
+
+.slide-wrapper.image-gallery-thumbnails-right {
+  width: unset;
+}
+
 .modal-gallery-custom {
   .ant-modal-content {
-    padding: 0 !important;
     background-color: #fff;
     overflow: hidden;
-  }
-
-  .ant-modal-close {
-    color: white;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
   }
 
   :global(.image-gallery) {
     display: flex;
     flex-direction: row;
-    height: 80vh;
 
     :global(.image-gallery-content) {
       flex: 1;
@@ -28,7 +45,6 @@
       }
 
       :global(.image-gallery-image) {
-        max-height: 80vh;
         object-fit: contain;
       }
     }
@@ -63,16 +79,44 @@
         }
       }
     }
+  }
 
-    @media (max-width: 768px) {
-      flex-direction: column;
-      height: auto;
+  .thumb-modal-wrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-      :global(.image-gallery-thumbnails-wrapper) {
-        width: 100%;
-        border-left: none;
-        border-top: 1px solid #333;
-      }
+  .thumb-modal-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.25s ease outline;
+
+    @include abstracts.breakpoint(sm) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .thumb-modal-img:hover,
+  .thumb-modal-img.active {
+    outline: 2px solid #1677ff;
+  }
+
+  .thumb-modal-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #5a5a5a;
+
+    @include abstracts.breakpoint(md) {
+      font-size: 1.6rem;
+    }
+
+    @include abstracts.breakpoint(sm) {
+      display: none;
     }
   }
 }

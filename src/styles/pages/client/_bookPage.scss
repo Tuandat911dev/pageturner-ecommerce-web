@@ -3,10 +3,8 @@
 .book-page-wrapper {
   max-width: 1400px;
   margin: 0 auto;
-  //   background-color: #f5f5f5;
-  min-height: 100vh;
   padding: 20px 20px;
-
+  max-height: calc(100vh - 64px);
   @include abstracts.breakpoint(md) {
     padding: 0;
   }
@@ -22,15 +20,11 @@
   }
 }
 
-.original-image,
-.thumbnail-image {
-  cursor: pointer;
-}
 
 // chi tiết sản phẩm
 .book-detail-container {
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
   padding: 20px;
 
@@ -106,6 +100,10 @@
         }
       }
 
+      .author-section {
+        margin-bottom: 20px;
+      }
+
       .rating-and-sold {
         display: flex;
         align-items: center;
@@ -125,7 +123,7 @@
           margin: 0 15px;
         }
 
-        .sold-text {
+        .product-sold {
           color: #757575;
           span {
             color: #222;
