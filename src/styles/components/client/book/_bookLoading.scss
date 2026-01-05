@@ -1,0 +1,111 @@
+@use "../../../abstracts";
+
+.book-loading {
+  width: min(1400px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  padding: 0 20px 0 20px;
+
+  @include abstracts.breakpoint(sm) {
+    padding: 0px;
+  }
+}
+
+.book-loading-container {
+  padding: 50px 30px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.book-loading-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-loading__main-img {
+  width: 100% !important;
+  height: 500px !important;
+
+  @include abstracts.breakpoint(lg) {
+    height: 450px !important;
+  }
+
+  @include abstracts.breakpoint(md) {
+    height: 400px !important;
+  }
+
+  @include abstracts.breakpoint(sm) {
+    height: 350px !important;
+  }
+}
+
+.book-loading__thumb-wrapper {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.book-loading__thumb-img {
+  @include abstracts.breakpoint(lg) {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  @include abstracts.breakpoint(md) {
+    width: 75px !important;
+    height: 75px !important;
+  }
+
+  @include abstracts.breakpoint(sm) {
+    width: 65px !important;
+    height: 65px !important;
+  }
+}
+
+.book-loading__desc {
+  margin-bottom: 15px;
+
+  @include abstracts.breakpoint(sm) {
+    margin-top: 15px;
+  }
+}
+
+.book-loading__input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.book-loading__input {
+  display: inline-block;
+  min-width: unset !important;
+
+  @include abstracts.breakpoint(lg) {
+    width: 100px !important;
+  }
+
+  @include abstracts.breakpoint(md) {
+    width: 80px !important;
+  }
+}
+
+.book-loading__cta-wrapper {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  @include abstracts.breakpoint(sm) {
+    flex-direction: column;
+  }
+}
+
+.book-loading__cta-btn {
+  @include abstracts.breakpoint(sm) {
+    width: 100% !important;
+  }
+}
