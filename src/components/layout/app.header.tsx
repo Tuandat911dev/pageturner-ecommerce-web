@@ -3,9 +3,10 @@ import { FaReact } from "react-icons/fa";
 import { FiShoppingCart, FiBook, FiUser, FiLogOut, FiLayout } from "react-icons/fi";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space } from "antd";
-import { useNavigate, Link, useLocation, NavLink } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
+import ProductCart from "../client/product/product.cart";
 
 const { Search } = Input;
 
@@ -13,7 +14,6 @@ const AppHeader = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { isAuthenticated, user, setUser, setIsAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogout = async () => {
     const res = await logoutAPI();
@@ -78,11 +78,13 @@ const AppHeader = () => {
           {/* RIGHT: CART & AUTH */}
           <div className="page-header__right">
             {isAuthenticated && (
-              <div className="desktop-cart">
-                <Badge count={5} size="small" showZero>
-                  <FiShoppingCart className="icon-cart" onClick={() => navigate("/order")} />
-                </Badge>
-              </div>
+              <ProductCart>
+                <div className="desktop-cart">
+                  <Badge count={5} size="small" showZero>
+                    <FiShoppingCart className="icon-cart" />
+                  </Badge>
+                </div>
+              </ProductCart>
             )}
 
             <div className="user-section">
@@ -111,13 +113,7 @@ const AppHeader = () => {
       </div>
 
       {/* MOBILE DRAWER */}
-      <Drawer
-        title="PageTurner"
-        placement="right"
-        onClose={() => setOpenDrawer(false)}
-        open={openDrawer}
-        width={280}
-      >
+      <Drawer title="PageTurner" placement="right" onClose={() => setOpenDrawer(false)} open={openDrawer} width={280}>
         <div className="drawer-content">
           <Search placeholder="Tìm kiếm..." style={{ marginBottom: 20 }} />
 
