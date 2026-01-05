@@ -1,4 +1,4 @@
-import { getBookAPI } from "@/services/api";
+import { getBookByIdAPI } from "@/services/api";
 import { App, Breadcrumb, Button, Col, InputNumber, Rate, Row, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -19,19 +19,20 @@ const BookPage = () => {
 
   useEffect(() => {
     const getBook = async () => {
-      const query = `current=1&pageSize=1&_id=${bookId}`;
-      const res = await getBookAPI(query);
-      if (res && res.data && res.data.result.length > 0) {
-        setBookData(res.data.result[0]);
-      } else {
-        message.error("Sản phẩm không tồn tại");
-        navigate("/");
+      if (bookId) {
+        const res = await getBookByIdAPI(bookId);
+        if (res && res.data) {
+          setBookData(res.data);
+        } else {
+          message.error("Sản phẩm không tồn tại");
+          navigate("/");
+        }
       }
     };
     getBook();
   }, [bookId]);
 
-  if (!bookData) return null; // Hoặc loading spinner
+  if (!bookData) return null;
 
   const formatSold = (sold: number) => {
     if (sold >= 1000) return (sold / 1000).toFixed(1).replace(/\.0$/, "") + "K";
