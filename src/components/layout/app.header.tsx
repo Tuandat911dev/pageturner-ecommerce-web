@@ -6,7 +6,7 @@ import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space } from "
 import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
-import ProductCart from "../client/product/product.cart";
+import ProductCart from "components/client/product/product.cart";
 
 const { Search } = Input;
 
@@ -14,6 +14,7 @@ const AppHeader = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { isAuthenticated, user, setUser, setIsAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
+  const { cart } = useCurrentApp();
 
   const handleLogout = async () => {
     const res = await logoutAPI();
@@ -80,7 +81,7 @@ const AppHeader = () => {
             {isAuthenticated && (
               <ProductCart>
                 <div className="desktop-cart">
-                  <Badge count={5} size="small" showZero>
+                  <Badge count={cart.length > 0 ? cart.length : 0} size="small" showZero>
                     <FiShoppingCart className="icon-cart" />
                   </Badge>
                 </div>
@@ -128,7 +129,7 @@ const AppHeader = () => {
                     setOpenDrawer(false);
                   }}
                 >
-                  <Badge count={5} size="small">
+                  <Badge count={cart.length > 0 ? cart.length : 0} size="small">
                     <FiShoppingCart style={{ fontSize: 18 }} />
                   </Badge>
                   <span>Giỏ hàng</span>

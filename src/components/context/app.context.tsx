@@ -49,6 +49,11 @@ const AppProvider = (props: TProps) => {
 
     if (localStorage.getItem("access_token")) {
       initApp();
+      const cartData = localStorage.getItem("carts");
+      if (cartData) {
+        const carts = JSON.parse(cartData) as ICart[];
+        setCart(carts);
+      }
     } else {
       setIsAppLoading(false);
     }

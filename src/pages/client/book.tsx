@@ -28,7 +28,7 @@ const BookPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const { cart, setCart } = useCurrentApp();
+  const { setCart } = useCurrentApp();
 
   useEffect(() => {
     const getBook = () => {
@@ -43,7 +43,7 @@ const BookPage = () => {
             message.error("Sản phẩm không tồn tại");
             navigate("/");
           }
-        }, 3000);
+        }, 1500);
       }
     };
     getBook();
@@ -92,10 +92,13 @@ const BookPage = () => {
       setCart(carts);
       localStorage.setItem("carts", JSON.stringify(carts));
       setCurrentQuantity(1);
+      message.success("Thêm vào giỏ hàng thành công");
     } else {
       const carts = [{ detail: book, quantity: currentQuantity, _id: _id }];
       localStorage.setItem("carts", JSON.stringify(carts));
       setCart(carts);
+      setCurrentQuantity(1);
+      message.success("Thêm vào giỏ hàng thành công");
     }
   };
 
