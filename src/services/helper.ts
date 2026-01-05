@@ -28,3 +28,25 @@ export const formatVND = (value: string | number) => {
 
   return `${formatted} ₫`;
 };
+
+export const formatDisplaySold = (sold: number) => {
+  if (!sold) return 0;
+  if (sold < 1000) return sold;
+
+  if (sold >= 1000 && sold < 1000000) {
+    const kValue = sold / 1000;
+    return kValue.toFixed(1).replace(/\.0$/, "") + "K";
+  }
+
+  if (sold >= 1000000 && sold < 1000000000) {
+    const mValue = sold / 1000000;
+    return mValue.toFixed(1).replace(/\.0$/, "") + "M";
+  }
+
+  if (sold >= 1000000000) {
+    const bValue = sold / 1000000000;
+    return bValue.toFixed(1).replace(/\.0$/, "") + "B";
+  }
+
+  return sold;
+};

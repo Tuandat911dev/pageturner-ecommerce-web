@@ -6,6 +6,7 @@ import { ShoppingCartOutlined, CreditCardOutlined, HomeOutlined } from "@ant-des
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ModalGallery from "@/components/client/product/product.gallery.modal";
+import { formatDisplaySold } from "@/services/helper";
 
 const BookPage = () => {
   const { bookId } = useParams();
@@ -33,11 +34,6 @@ const BookPage = () => {
   }, [bookId]);
 
   if (!bookData) return null;
-
-  const formatSold = (sold: number) => {
-    if (sold >= 1000) return (sold / 1000).toFixed(1).replace(/\.0$/, "") + "K";
-    return sold;
-  };
 
   const getImage = (imageName: string) => {
     return `${import.meta.env.VITE_BACKEND_URL}/images/book/${imageName}`;
@@ -113,7 +109,7 @@ const BookPage = () => {
                   <Rate allowHalf disabled defaultValue={5} className="product-rating" />
                   <span className="separator"></span>
                   <Text className="product-sold">
-                    Đã Bán <span>{formatSold(bookData.sold)}</span>
+                    Đã Bán <span>{formatDisplaySold(bookData.sold)}</span>
                   </Text>
                 </div>
 
