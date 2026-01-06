@@ -7,7 +7,18 @@
 }
 
 // cart header
+.cart-table-header__wrapper {
+  position: sticky;
+  top: 0;
+  height: 139px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: flex-end;
+  z-index: 10;
+}
+
 .cart-table-header {
+  width: 100%;
   border-radius: 3px;
   align-items: center;
   height: 55px;
@@ -22,6 +33,7 @@
   padding: 0 20px;
   font-size: 1.4rem;
   line-height: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
   &__checkbox {
     min-width: 58px;
@@ -33,15 +45,16 @@
     }
 
     & label {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       border: 1px solid #00000024;
       border-radius: 2px;
       flex-shrink: 0;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       margin-right: 8px;
-      position: relative;
       box-shadow: inset 0 2px #00000005;
       cursor: pointer;
 
@@ -52,8 +65,6 @@
         width: 9px;
         height: 5px;
         position: absolute;
-        top: 3px;
-        left: 3px;
         transform: rotate(-45deg);
       }
     }
@@ -107,15 +118,16 @@
     }
 
     & label {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       border: 1px solid #00000024;
       border-radius: 2px;
       flex-shrink: 0;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       margin-right: 8px;
-      position: relative;
       box-shadow: inset 0 2px #00000005;
       cursor: pointer;
 
@@ -125,7 +137,6 @@
         border-left: 2px solid #fff;
         width: 9px;
         height: 5px;
-        position: absolute;
         top: 3px;
         left: 3px;
         transform: rotate(-45deg);
@@ -180,6 +191,147 @@
       align-items: center;
       gap: 5px;
       cursor: pointer;
+    }
+  }
+}
+
+// cart footer
+.cart-table-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+  height: 80px;
+  background: #fff;
+  border-radius: 4px 4px 0 0;
+  border-top: 1px solid #f0f0f0;
+
+  box-shadow: 0 -8px 20px -10px rgba(0, 0, 0, 0.15);
+  color: #333;
+
+  &__checkbox {
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+
+    & input:checked ~ label {
+      background-color: #1677ff;
+      border-color: #1677ff;
+
+      &::before {
+        opacity: 1;
+        transform: rotate(-45deg) scale(1);
+      }
+    }
+
+    & label {
+      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #d9d9d9;
+      border-radius: 2px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fff;
+
+      &::before {
+        content: "";
+        width: 9px;
+        height: 5px;
+        border-bottom: 2px solid #fff;
+        border-left: 2px solid #fff;
+        transform: rotate(-45deg) scale(0.8);
+        opacity: 0;
+        transition: all 0.2s;
+      }
+
+      &:hover {
+        border-color: #1677ff;
+      }
+    }
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    margin-left: 10px;
+
+    &-all {
+      font-size: 15px;
+      font-weight: 400;
+      color: #262626;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    &-delete {
+      font-size: 15px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #1677ff;
+      }
+
+      .anticon {
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__product {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+
+    &-total {
+      font-size: 15px;
+      color: #262626;
+    }
+
+    &-price {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1677ff;
+    }
+  }
+
+  &__cta {
+    &-btn {
+      &.ant-btn-primary {
+        background: #1677ff;
+        border-color: #1677ff;
+        width: 180px;
+        height: 44px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 4px;
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: #63a2fa !important;
+          border-color: #63a2fa !important;
+        }
+      }
     }
   }
 }
