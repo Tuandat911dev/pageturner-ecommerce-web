@@ -1,7 +1,7 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import { formatVND } from "@/services/helper";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
-import { InputNumber } from "antd";
+import { InputNumber, Popconfirm } from "antd";
 import { useState } from "react";
 
 interface ICart {
@@ -43,6 +43,17 @@ const CartTableItem = (props: IProps) => {
       localStorage.setItem("carts", JSON.stringify(carts));
       setCart(carts);
       setCurrentQuantity(modifyQuantity);
+    }
+  };
+
+  const handleDeleteCart = () => {
+    const cartData = localStorage.getItem("carts");
+    if (cartData) {
+      const carts = JSON.parse(cartData) as ICart[];
+      const cartsModified = carts.filter((item) => item._id !== cart._id);
+
+      localStorage.setItem("carts", JSON.stringify(cartsModified));
+      setCart(cartsModified);
     }
   };
 
@@ -95,9 +106,17 @@ const CartTableItem = (props: IProps) => {
           <span>{formatVND(cart.detail.price * cart.quantity)}</span>
         </div>
         <div className="cart-table-item__action">
-          <span>
-            <DeleteOutlined /> Xoá
-          </span>
+          <Popconfirm
+            title="Xoá Sản Phẩm Này Khỏi Giỏ Hàng"
+            placement="bottomRight"
+            okText="Xoá"
+            cancelText="Cancel"
+            onConfirm={handleDeleteCart}
+          >
+            <span>
+              <DeleteOutlined /> Xoá
+            </span>
+          </Popconfirm>
         </div>
       </div>
     </>
