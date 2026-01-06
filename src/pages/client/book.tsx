@@ -185,6 +185,7 @@ const BookPage = () => {
                           onChange={(value) => setCurrentQuantity(value || 1)}
                           className="input-quantity"
                           controls={false}
+                          readOnly={true}
                         />
                         <button
                           className="quantity__input-btn increase"

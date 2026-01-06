@@ -18,7 +18,7 @@ import ManageBookPage from "pages/admin/manage.book";
 import ManageOrderPage from "pages/admin/manage.order";
 import ManageUserPage from "pages/admin/manage.user";
 import enUS from "antd/locale/en_US";
-import CartTable from "components/client/cart/cart.table";
+import CartPage from "pages/client/carts";
 
 const router = createBrowserRouter([
   {
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
         path: "/cart",
         element: (
           <ProtectedRoute>
-            <CartTable />
+            <CartPage />
           </ProtectedRoute>
         ),
       },
