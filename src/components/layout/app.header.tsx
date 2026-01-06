@@ -6,7 +6,7 @@ import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space } from "
 import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
-import ProductCart from "components/client/product/product.cart";
+import ProductCart from "@/components/client/cart/cart.popup";
 
 const { Search } = Input;
 
