@@ -2,7 +2,7 @@ import { useCurrentApp } from "@/components/context/app.context";
 import { formatVND } from "@/services/helper";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { InputNumber, Popconfirm } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ICart {
   detail: IBookTable;
@@ -12,15 +12,21 @@ interface ICart {
 
 interface IProps {
   cart: ICart;
+  checkAllBox: boolean;
 }
 
 type TInputNumber = "increase" | "decrease";
 
 const CartTableItem = (props: IProps) => {
-  const { cart } = props;
+  const { cart, checkAllBox } = props;
+  const [checkBox, setCheckBox] = useState<boolean>(false);
   const { setCart } = useCurrentApp();
   const [currentQuantity, setCurrentQuantity] = useState<number>(cart.quantity);
 
+  useEffect(() => {
+    setCheckBox(checkAllBox);
+  }, [checkAllBox]);
+  
   const getImage = (imageName: string) => {
     return `${import.meta.env.VITE_BACKEND_URL}/images/book/${imageName}`;
   };
@@ -57,11 +63,16 @@ const CartTableItem = (props: IProps) => {
     }
   };
 
+  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setCheckBox(isChecked);
+  };
+
   return (
     <>
       <div className="cart-table-item">
         <div className="cart-table-item__checkbox">
-          <input id={cart._id} type="checkbox" hidden />
+          <input id={cart._id} type="checkbox" hidden onChange={handleCheckBox} checked={checkBox} />
           <label htmlFor={cart._id}></label>
         </div>
         <div className="cart-table-item__product">

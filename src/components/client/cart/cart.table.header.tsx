@@ -1,9 +1,21 @@
-const CartTableHeader = () => {
+interface IProps {
+  checkAllBox: boolean;
+  setCheckAllBox: (v: boolean) => void;
+}
+
+const CartTableHeader = (props: IProps) => {
+  const { checkAllBox, setCheckAllBox } = props;
+
+  const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setCheckAllBox(isChecked);
+  };
+
   return (
     <>
       <div className="cart-table-header">
         <div className="cart-table-header__checkbox">
-          <input id="cartCheck" type="checkbox" hidden />
+          <input id="cartCheck" type="checkbox" hidden onChange={handleCheckBox} checked={checkAllBox} />
           <label htmlFor="cartCheck"></label>
         </div>
         <div className="cart-table-header__product">Sản Phẩm</div>
