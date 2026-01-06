@@ -1,0 +1,86 @@
+@use "../../abstracts";
+
+.cart-table-wrapper {
+  width: min(1400px, 100%);
+  margin: 20px auto 0;
+  padding: 0 20px;
+}
+
+// cart header
+.cart-table-header {
+  border-radius: 3px;
+  align-items: center;
+  height: 55px;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 1px 1px #0000000d;
+  color: #888;
+  background: #fff;
+  margin-bottom: 12px;
+  padding: 0 20px;
+  font-size: 1.4rem;
+  line-height: 16px;
+
+  &__checkbox {
+    min-width: 58px;
+    padding: 0 12px 0 20px;
+
+    & input:checked ~ label {
+      background-color: #1677ff;
+      border-color: #1677ff;
+    }
+
+    & label {
+      display: inline-block;
+      text-align: center;
+      border: 1px solid #00000024;
+      border-radius: 2px;
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      position: relative;
+      box-shadow: inset 0 2px #00000005;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        border-bottom: 2px solid #fff;
+        border-left: 2px solid #fff;
+        width: 9px;
+        height: 5px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &__product {
+    color: #000c;
+    width: 43.6644%;
+  }
+
+  &__price {
+    text-align: center;
+    width: 14.9829%;
+  }
+
+  &__quantity {
+    text-align: center;
+    width: 14.5548%;
+  }
+
+  &__total-price {
+    text-align: center;
+    width: 9.84589%;
+  }
+
+  &__action {
+    text-align: center;
+    width: 11.9863%;
+  }
+}

@@ -18,6 +18,7 @@ import ManageBookPage from "pages/admin/manage.book";
 import ManageOrderPage from "pages/admin/manage.order";
 import ManageUserPage from "pages/admin/manage.user";
 import enUS from "antd/locale/en_US";
+import CartTable from "components/client/cart/cart.table";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <div>checkout page</div>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <ProtectedRoute>
+            <CartTable />
           </ProtectedRoute>
         ),
       },
