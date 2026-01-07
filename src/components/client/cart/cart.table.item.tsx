@@ -2,7 +2,7 @@ import { useCurrentApp } from "@/components/context/app.context";
 import { formatVND } from "@/services/helper";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { InputNumber, Popconfirm } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface ICart {
   detail: IBookTable;
@@ -12,21 +12,19 @@ interface ICart {
 
 interface IProps {
   cart: ICart;
-  checkAllBox: boolean;
+  cartListChecked: ICart[];
+  setCartListChecked: (v: ICart[]) => void;
+  handleToggleAll: (v: boolean) => void;
 }
 
 type TInputNumber = "increase" | "decrease";
 
 const CartTableItem = (props: IProps) => {
-  const { cart, checkAllBox } = props;
-  const [checkBox, setCheckBox] = useState<boolean>(false);
+  const { cart, cartListChecked, setCartListChecked, handleToggleAll } = props;
   const { setCart } = useCurrentApp();
   const [currentQuantity, setCurrentQuantity] = useState<number>(cart.quantity);
+  const isChecked = cartListChecked.some((item) => item._id === cart._id);
 
-  useEffect(() => {
-    setCheckBox(checkAllBox);
-  }, [checkAllBox]);
-  
   const getImage = (imageName: string) => {
     return `${import.meta.env.VITE_BACKEND_URL}/images/book/${imageName}`;
   };
@@ -65,14 +63,20 @@ const CartTableItem = (props: IProps) => {
 
   const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
-    setCheckBox(isChecked);
+    if (isChecked) {
+      setCartListChecked([...cartListChecked, cart]);
+    } else {
+      const newCarts = cartListChecked.filter((item) => item._id !== cart._id);
+      handleToggleAll(false);
+      setCartListChecked(newCarts);
+    }
   };
 
   return (
     <>
       <div className="cart-table-item">
         <div className="cart-table-item__checkbox">
-          <input id={cart._id} type="checkbox" hidden onChange={handleCheckBox} checked={checkBox} />
+          <input id={cart._id} type="checkbox" hidden onChange={handleCheckBox} checked={isChecked} />
           <label htmlFor={cart._id}></label>
         </div>
         <div className="cart-table-item__product">

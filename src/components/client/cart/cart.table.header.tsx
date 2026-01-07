@@ -1,14 +1,14 @@
 interface IProps {
   checkAllBox: boolean;
-  setCheckAllBox: (v: boolean) => void;
+  handleToggleAll: (v: boolean) => void;
 }
 
 const CartTableHeader = (props: IProps) => {
-  const { checkAllBox, setCheckAllBox } = props;
+  const { checkAllBox, handleToggleAll } = props;
 
   const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
-    setCheckAllBox(isChecked);
+    handleToggleAll(isChecked);
   };
 
   return (
