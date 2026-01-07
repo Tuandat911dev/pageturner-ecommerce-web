@@ -45,7 +45,7 @@ const CartTableFooter = (props: IProps) => {
           <label htmlFor="cartCheck"></label>
         </div>
         <div className="cart-table-footer__action">
-          <span className="cart-table-footer__action-all">Chọn Tất Cả</span>
+          <span className="cart-table-footer__action-all">Tất Cả</span>
           <Button
             className="cart-table-footer__action-delete"
             icon={<DeleteOutlined />}
@@ -66,7 +66,7 @@ const CartTableFooter = (props: IProps) => {
             disabled={cartListChecked.length === 0}
             color="blue"
           >
-            Mua Hàng
+            Thanh Toán
           </Button>
         </div>
       </div>

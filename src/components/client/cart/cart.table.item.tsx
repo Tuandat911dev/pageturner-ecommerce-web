@@ -74,6 +74,7 @@ const CartTableItem = (props: IProps) => {
 
   return (
     <>
+      {/* Desktop */}
       <div className="cart-table-item">
         <div className="cart-table-item__checkbox">
           <input id={cart._id} type="checkbox" hidden onChange={handleCheckBox} checked={isChecked} />
@@ -132,6 +133,69 @@ const CartTableItem = (props: IProps) => {
               <DeleteOutlined /> Xoá
             </span>
           </Popconfirm>
+        </div>
+      </div>
+
+      {/* Mobile */}
+      <div className="cart-table-item-mobile">
+        <div className="item-mobile-left">
+          <div className="cart-table-item-mobile__checkbox">
+            <input id={cart._id} type="checkbox" hidden onChange={handleCheckBox} checked={isChecked} />
+            <label htmlFor={cart._id}></label>
+          </div>
+          <img src={getImage(cart.detail.thumbnail)} alt="" className="cart-table-item-mobile__product-thumb" />
+        </div>
+
+        <div className="item-mobile-right">
+          <p className="cart-table-item-mobile__product-text">{cart.detail.mainText}</p>
+
+          <div className="cart-table-item-mobile__total-price">
+            <span>{formatVND(cart.detail.price * cart.quantity)}</span>
+          </div>
+
+          <div className="item-mobile-action-row">
+            <div className="cart-table-item-mobile__quantity">
+              <div className="quantity-control">
+                <div className="quantity__input-wrapper">
+                  <button
+                    className="quantity__input-btn decrease"
+                    onClick={() => handleChangQuantity("decrease")}
+                    disabled={currentQuantity <= 1}
+                  >
+                    <MinusOutlined />
+                  </button>
+                  <InputNumber
+                    min={1}
+                    max={cart.detail.quantity}
+                    value={currentQuantity}
+                    onChange={(value) => setCurrentQuantity(value || 1)}
+                    className="input-quantity"
+                    controls={false}
+                    readOnly={true}
+                  />
+                  <button
+                    className="quantity__input-btn increase"
+                    onClick={() => handleChangQuantity("increase")}
+                    disabled={currentQuantity >= cart.detail.quantity}
+                  >
+                    <PlusOutlined />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="cart-table-item-mobile__action">
+              <Popconfirm
+                title="Xoá Sản Phẩm Này Khỏi Giỏ Hàng"
+                placement="bottomRight"
+                okText="Xoá"
+                cancelText="Cancel"
+                onConfirm={handleDeleteCart}
+              >
+                <DeleteOutlined style={{ color: "#ff4d4f", fontSize: "18px" }} />
+              </Popconfirm>
+            </div>
+          </div>
         </div>
       </div>
     </>

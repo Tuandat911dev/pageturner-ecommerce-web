@@ -15,6 +15,10 @@
   display: flex;
   align-items: flex-end;
   z-index: 10;
+
+  @include abstracts.breakpoint(lg) {
+    display: none;
+  }
 }
 
 .cart-table-header {
@@ -108,9 +112,22 @@
   margin-bottom: 12px;
   padding: 15px 20px;
 
+  @include abstracts.breakpoint(lg) {
+    justify-content: space-between;
+  }
+
+  @include abstracts.breakpoint(md) {
+    display: none;
+  }
+
   &__checkbox {
     min-width: 58px;
     padding: 0 12px 0 20px;
+
+    @include abstracts.breakpoint(lg) {
+      padding: 0;
+      min-width: 0px;
+    }
 
     & input:checked ~ label {
       background-color: #1677ff;
@@ -159,12 +176,21 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       object-fit: contain;
+
+      @include abstracts.breakpoint(lg) {
+        width: 80px;
+        height: 100px;
+      }
     }
   }
 
   &__price {
     text-align: center;
     width: 14.9829%;
+
+    @include abstracts.breakpoint(lg) {
+      display: none;
+    }
   }
 
   &__quantity {
@@ -195,6 +221,95 @@
   }
 }
 
+// Cart item mobile
+.cart-table-item-mobile {
+  display: none;
+  padding: 12px;
+  gap: 12px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  margin: 20px 0;
+
+  @include abstracts.breakpoint(md) {
+    display: flex;
+  }
+
+  .item-mobile-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__checkbox {
+    & input:checked ~ label {
+      background-color: #1677ff;
+      border-color: #1677ff;
+    }
+
+    & label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid #00000024;
+      border-radius: 2px;
+      flex-shrink: 0;
+      width: 15px;
+      height: 15px;
+      box-shadow: inset 0 2px #00000005;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        border-bottom: 2px solid #fff;
+        border-left: 2px solid #fff;
+        width: 9px;
+        height: 5px;
+        top: 3px;
+        left: 3px;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  &__product-thumb {
+    width: 80px;
+    height: 100px;
+    object-fit: contain;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  .item-mobile-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+
+    .cart-table-item__product-text {
+      font-weight: 500;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cart-table-item__total-price {
+      color: #ee4d2d;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .item-mobile-action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+  }
+}
+
 // cart footer
 .cart-table-footer {
   position: sticky;
@@ -217,6 +332,11 @@
     min-width: 40px;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+
+    @include abstracts.breakpoint(md) {
+      min-width: 0px;
+    }
 
     & input:checked ~ label {
       background-color: #1677ff;
@@ -241,6 +361,11 @@
       cursor: pointer;
       transition: all 0.2s;
       background: #fff;
+
+      @include abstracts.breakpoint(md) {
+        width: 15px;
+        height: 15px;
+      }
 
       &::before {
         content: "";
@@ -272,6 +397,10 @@
       color: #262626;
       cursor: pointer;
       user-select: none;
+
+      @include abstracts.breakpoint(md) {
+        display: none;
+      }
     }
 
     &-delete {
@@ -290,6 +419,13 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+
+      @include abstracts.breakpoint(md) {
+        width: 60px;
+        height: 30px;
+        font-size: 12px;
+      }
+
       &:hover:not(&:disabled) {
         background: #ff4d4f !important;
         color: #fff !important;
@@ -320,12 +456,25 @@
     &-total {
       font-size: 15px;
       color: #262626;
+
+      @include abstracts.breakpoint(lg) {
+        margin-left: 20px;
+      }
+
+      @include abstracts.breakpoint(md) {
+        display: none;
+      }
     }
 
     &-price {
       font-size: 22px;
       font-weight: 600;
       color: #1677ff;
+      white-space: nowrap;
+
+      @include abstracts.breakpoint(md) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -343,6 +492,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include abstracts.breakpoint(md) {
+        width: 75px;
+        height: 30px;
+        font-size: 12px;
+      }
 
       &:hover:not(&:disabled) {
         background: #1677ff !important;
