@@ -9,8 +9,8 @@
 // cart header
 .cart-table-header__wrapper {
   position: sticky;
-  top: 0;
-  height: 139px;
+  top: 62px;
+  height: 75px;
   background-color: #f5f5f5;
   display: flex;
   align-items: flex-end;
@@ -29,11 +29,11 @@
   box-shadow: 0 1px 1px #0000000d;
   color: #888;
   background: #fff;
-  margin-bottom: 12px;
   padding: 0 20px;
   font-size: 1.4rem;
   line-height: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 10px;
 
   &__checkbox {
     min-width: 58px;
