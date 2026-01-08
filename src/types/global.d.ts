@@ -89,4 +89,24 @@ declare global {
     quantity: number;
     _id: string;
   }
+
+  // Order
+  interface IOrderHistory {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    userId: string;
+    detail: [
+      {
+        bookName: string;
+        quantity: number;
+        _id: string;
+      }
+    ];
+    totalPrice: number;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+  }
 }

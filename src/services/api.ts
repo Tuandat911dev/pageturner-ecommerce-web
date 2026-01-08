@@ -138,6 +138,11 @@ export const orderAPI = (data: {
     _id: string;
   }[];
 }) => {
-  const urlBackend = `/api/v1/order`;
+  const urlBackend = "/api/v1/order";
   return axios.post<IBackendRes<string>>(urlBackend, data);
+};
+
+export const orderHistoryAPI = () => {
+  const urlBackend = "/api/v1/history";
+  return axios.get<IBackendRes<IOrderHistory[]>>(urlBackend);
 };
