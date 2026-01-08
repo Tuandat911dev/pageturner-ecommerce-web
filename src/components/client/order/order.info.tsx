@@ -2,12 +2,37 @@ import { Form, Input, Radio, Divider, Button } from "antd";
 import { UserOutlined, PhoneOutlined } from "@ant-design/icons";
 import { formatVND } from "@/services/helper";
 import { useEffect, useState } from "react";
+import { useCurrentApp } from "@/components/context/app.context";
+import { orderAPI } from "@/services/api";
+import { App } from "antd";
+import { APP_MESSAGES } from "@/constants";
 
 const { TextArea } = Input;
 
-const OrderInfo = ({ items }: { items: ICart[] }) => {
+interface IOrder {
+  name: string;
+  address: string;
+  phone: string;
+  totalPrice: number;
+  detail: {
+    bookName: string;
+    quantity: number;
+    _id: string;
+  }[];
+}
+
+interface IProps {
+  handleNextStep: () => void;
+  items: ICart[];
+}
+
+const OrderInfo = (props: IProps) => {
+  const { handleNextStep, items } = props;
   const [form] = Form.useForm();
   const [submittable, setSubmittable] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { cartListChecked, setCartListChecked, cart, setCart } = useCurrentApp();
+  const { notification } = App.useApp();
 
   const values = Form.useWatch([], form);
   useEffect(() => {
@@ -19,8 +44,52 @@ const OrderInfo = ({ items }: { items: ICart[] }) => {
 
   const subTotal = items.reduce((acc, item) => acc + item.detail.price * item.quantity, 0);
 
+  const handleDeleteSelectedBookToCart = () => {
+    const cartsChecked = new Set(cartListChecked.map((item) => item._id));
+    const newCart = cart.filter((item) => !cartsChecked.has(item._id));
+    setCart(newCart);
+    localStorage.setItem("carts", JSON.stringify(newCart));
+    setCartListChecked([]);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onFinish = (values: any) => {
-    console.log("Order Data:", { ...values, products: items, total: subTotal });
+    console.log(values);
+    const bookDetailList = cartListChecked.map((book) => {
+      return {
+        bookName: book.detail.mainText,
+        quantity: book.quantity,
+        _id: book._id,
+      };
+    });
+
+    const data: IOrder = {
+      name: values.fullName,
+      address: values.address,
+      phone: values.phone,
+      totalPrice: subTotal,
+      detail: bookDetailList,
+    };
+
+    setLoading(true);
+    setTimeout(async () => {
+      const res = await orderAPI(data);
+      if (res.data) {
+        notification.success({
+          message: APP_MESSAGES.COMMON.SUCCESS_TITLE,
+          description: "Đơn hàng của bản đã được đặt",
+        });
+        handleNextStep();
+        setLoading(false);
+        handleDeleteSelectedBookToCart();
+      } else {
+        notification.error({
+          message: APP_MESSAGES.COMMON.ERROR_TITLE,
+          description: "Có lỗi xảy ra, vui lòng tạo lại đơn hàng",
+        });
+        setLoading(false);
+      }
+    }, 1500);
   };
 
   return (
@@ -30,7 +99,7 @@ const OrderInfo = ({ items }: { items: ICart[] }) => {
       <Form form={form} layout="vertical" onFinish={onFinish} initialValues={{ payment: "COD" }}>
         <Form.Item
           label="Họ tên người nhận"
-          name="fullname"
+          name="fullName"
           rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
         >
           <Input prefix={<UserOutlined />} placeholder="Nhập tên người nhận" size="large" />
@@ -75,7 +144,14 @@ const OrderInfo = ({ items }: { items: ICart[] }) => {
           </div>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="btn-order" size="large" disabled={!submittable}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="btn-order"
+              size="large"
+              disabled={!submittable}
+              loading={loading}
+            >
               ĐẶT HÀNG NGAY ({items.length})
             </Button>
           </Form.Item>

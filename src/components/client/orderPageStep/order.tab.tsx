@@ -3,7 +3,11 @@ import OrderInfo from "components/client/order/order.info";
 import OrderList from "components/client/order/order.list";
 import { useMemo } from "react";
 
-const OrderTab = () => {
+interface IProps {
+  handleNextStep: () => void;
+}
+
+const OrderTab = ({ handleNextStep }: IProps) => {
   const { cart, cartListChecked } = useCurrentApp();
 
   const carts = useMemo(() => {
@@ -19,7 +23,7 @@ const OrderTab = () => {
         </div>
 
         <div className="order-right">
-          <OrderInfo items={carts} />
+          <OrderInfo items={carts} handleNextStep={handleNextStep} />
         </div>
       </div>
     </div>

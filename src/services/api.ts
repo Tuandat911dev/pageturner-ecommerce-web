@@ -125,3 +125,19 @@ export const getBookByIdAPI = (_id: string) => {
     },
   });
 };
+
+// order
+export const orderAPI = (data: {
+  name: string;
+  address: string;
+  phone: string;
+  totalPrice: number;
+  detail: {
+    bookName: string;
+    quantity: number;
+    _id: string;
+  }[];
+}) => {
+  const urlBackend = `/api/v1/order`;
+  return axios.post<IBackendRes<string>>(urlBackend, data);
+};

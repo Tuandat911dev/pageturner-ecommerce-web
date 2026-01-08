@@ -19,7 +19,7 @@ const OrderPage = () => {
     },
     {
       title: "Tạo Đơn Hàng",
-      content: <OrderTab />,
+      content: <OrderTab handleNextStep={handleNextStep} />,
       icon: <FileDoneOutlined />,
     },
     {
