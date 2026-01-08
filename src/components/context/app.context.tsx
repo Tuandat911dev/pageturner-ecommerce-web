@@ -56,6 +56,7 @@ const AppProvider = (props: TProps) => {
       }
     } else {
       setIsAppLoading(false);
+      return;
     }
   }, []);
 

@@ -41,7 +41,7 @@ const BookPage = () => {
       }
     };
     getBook();
-  }, [bookId]);
+  }, [bookId, message, navigate]);
 
   const getImage = (imageName: string) => {
     return `${import.meta.env.VITE_BACKEND_URL}/images/book/${imageName}`;
