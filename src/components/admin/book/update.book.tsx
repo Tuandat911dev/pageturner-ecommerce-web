@@ -133,21 +133,7 @@ const UpdateBook = (props: IProps) => {
     return isJpgOrPng && isLt5M;
   };
 
-  const handleUploadFileThumb = async (options: UploadRequestOption) => {
-    const { file, onSuccess, onError } = options;
-    try {
-      const res = await callUploadImageBook(file);
-      if (res.data) {
-        const fileName = res.data;
-        onSuccess?.(fileName);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      onError?.(error);
-    }
-  };
-
-  const handleUploadFileSlider = async (options: UploadRequestOption) => {
+  const handleUploadFile = async (options: UploadRequestOption) => {
     const { file, onSuccess, onError } = options;
     try {
       const res = await callUploadImageBook(file);
@@ -350,7 +336,7 @@ const UpdateBook = (props: IProps) => {
                   onPreview={handlePreviewThumb}
                   onChange={handleChangeThumb}
                   beforeUpload={beforeUpload}
-                  customRequest={handleUploadFileThumb}
+                  customRequest={handleUploadFile}
                 >
                   {fileListThumb.length >= 1 ? null : uploadButton}
                 </Upload>
@@ -377,7 +363,7 @@ const UpdateBook = (props: IProps) => {
                   onPreview={handlePreviewSlider}
                   onChange={handleChangeSlider}
                   beforeUpload={beforeUpload}
-                  customRequest={handleUploadFileSlider}
+                  customRequest={handleUploadFile}
                 >
                   {uploadButton}
                 </Upload>
