@@ -1,18 +1,17 @@
 import CartTableHeader from "components/client/cart/cart.table.header";
 import CartTableList from "components/client/cart/cart.table.list";
 import { useState } from "react";
-import CartTableFooter from "./cart.table.footer";
+import CartTableFooter from "components/client/cart/cart.table.footer";
 import { useCurrentApp } from "@/components/context/app.context";
 
 interface IProps {
   handleNextStep: () => void;
 }
 
-const CartTable = (props: IProps) => {
+const CartTab = (props: IProps) => {
   const { handleNextStep } = props;
-  const { cart, setCart } = useCurrentApp();
+  const { cart, setCart, cartListChecked, setCartListChecked } = useCurrentApp();
   const [checkAllBox, setCheckAllBox] = useState<boolean>(false);
-  const [cartListChecked, setCartListChecked] = useState<ICart[]>([]);
 
   const handleToggleAll = (checked: boolean) => {
     setCheckAllBox(checked);
@@ -34,15 +33,10 @@ const CartTable = (props: IProps) => {
   return (
     <div className="cart-table-wrapper">
       <CartTableHeader checkAllBox={checkAllBox} handleToggleAll={handleToggleAll} />
-      <CartTableList
-        cartListChecked={cartListChecked}
-        setCartListChecked={setCartListChecked}
-        handleToggleAll={handleToggleAll}
-      />
+      <CartTableList handleToggleAll={handleToggleAll} />
       <CartTableFooter
         checkAllBox={checkAllBox}
         handleToggleAll={handleToggleAll}
-        cartListChecked={cartListChecked}
         handleDeleteSelectedCart={handleDeleteSelectedCart}
         handleNextStep={handleNextStep}
       />
@@ -50,4 +44,4 @@ const CartTable = (props: IProps) => {
   );
 };
 
-export default CartTable;
+export default CartTab;

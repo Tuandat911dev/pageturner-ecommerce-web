@@ -6,16 +6,14 @@ import { useState } from "react";
 
 interface IProps {
   cart: ICart;
-  cartListChecked: ICart[];
-  setCartListChecked: (v: ICart[]) => void;
   handleToggleAll: (v: boolean) => void;
 }
 
 type TInputNumber = "increase" | "decrease";
 
 const CartTableItem = (props: IProps) => {
-  const { cart, cartListChecked, setCartListChecked, handleToggleAll } = props;
-  const { setCart } = useCurrentApp();
+  const { cart, handleToggleAll } = props;
+  const { setCart, cartListChecked, setCartListChecked } = useCurrentApp();
   const [currentQuantity, setCurrentQuantity] = useState<number>(cart.quantity);
   const isChecked = cartListChecked.some((item) => item._id === cart._id);
 

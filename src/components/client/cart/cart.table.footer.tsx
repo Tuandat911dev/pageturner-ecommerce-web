@@ -7,14 +7,13 @@ import { useMemo } from "react";
 interface IProps {
   checkAllBox: boolean;
   handleToggleAll: (v: boolean) => void;
-  cartListChecked: ICart[];
   handleDeleteSelectedCart: () => void;
   handleNextStep: () => void;
 }
 
 const CartTableFooter = (props: IProps) => {
-  const { checkAllBox, handleToggleAll, cartListChecked, handleDeleteSelectedCart, handleNextStep } = props;
-  const { cart } = useCurrentApp();
+  const { checkAllBox, handleToggleAll, handleDeleteSelectedCart, handleNextStep } = props;
+  const { cart, cartListChecked } = useCurrentApp();
 
   const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
@@ -62,7 +61,7 @@ const CartTableFooter = (props: IProps) => {
             color="blue"
             onClick={handleNextStep}
           >
-            Thanh Toán
+            Tạo Đơn Hàng
           </Button>
         </div>
       </div>

@@ -1,7 +1,8 @@
-import CartTable from "@/components/client/cart/cart.table";
-import { Button, Steps } from "antd";
+import CartTab from "@/components/client/orderPageStep/cart.tab";
+import { Steps } from "antd";
 import { useState } from "react";
 import { BankOutlined, FileDoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import OrderTab from "@/components/client/orderPageStep/order.tab";
 
 const OrderPage = () => {
   const [current, setCurrent] = useState(0);
@@ -10,19 +11,15 @@ const OrderPage = () => {
     setCurrent(current + 1);
   };
 
-  const handlePrevStep = () => {
-    setCurrent(current - 1);
-  };
-
   const steps = [
     {
       title: "Giỏ Hàng",
-      content: <CartTable handleNextStep={handleNextStep} />,
+      content: <CartTab handleNextStep={handleNextStep} />,
       icon: <ShoppingCartOutlined />,
     },
     {
       title: "Tạo Đơn Hàng",
-      content: "Second-content",
+      content: <OrderTab />,
       icon: <FileDoneOutlined />,
     },
     {
@@ -50,23 +47,6 @@ const OrderPage = () => {
       </div>
 
       <div>{steps[current].content}</div>
-      <div style={{ marginTop: 24 }}>
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => handleNextStep()}>
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button type="primary" onClick={() => alert("done")}>
-            Done
-          </Button>
-        )}
-        {current > 0 && (
-          <Button style={{ margin: "0 8px" }} onClick={() => handlePrevStep()}>
-            Previous
-          </Button>
-        )}
-      </div>
     </>
   );
 };

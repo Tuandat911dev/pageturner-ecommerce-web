@@ -11,6 +11,8 @@ interface IAppContext {
   setIsAppLoading: (loading: boolean) => void;
   cart: ICart[];
   setCart: (v: ICart[]) => void;
+  cartListChecked: ICart[];
+  setCartListChecked: (v: ICart[]) => void;
 }
 
 interface ICart {
@@ -30,6 +32,7 @@ const AppProvider = (props: TProps) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [cart, setCart] = useState<ICart[]>([]);
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
+  const [cartListChecked, setCartListChecked] = useState<ICart[]>([]);
 
   useEffect(() => {
     const initApp = async () => {
@@ -81,7 +84,18 @@ const AppProvider = (props: TProps) => {
         <FadeLoader color="#61DAFB" loading={true} height="15px" />
       </div>
       <CurrentAppContext.Provider
-        value={{ isAuthenticated, user, isAppLoading, setUser, setIsAuthenticated, setIsAppLoading, cart, setCart }}
+        value={{
+          isAuthenticated,
+          user,
+          isAppLoading,
+          setUser,
+          setIsAuthenticated,
+          setIsAppLoading,
+          cart,
+          setCart,
+          cartListChecked,
+          setCartListChecked,
+        }}
       >
         {props.children}
       </CurrentAppContext.Provider>
