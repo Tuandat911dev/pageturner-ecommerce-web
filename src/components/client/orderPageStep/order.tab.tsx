@@ -5,11 +5,11 @@ import { useMemo } from "react";
 
 interface IProps {
   handleNextStep: () => void;
+  setOrderSuccess: (v: boolean) => void;
 }
 
-const OrderTab = ({ handleNextStep }: IProps) => {
+const OrderTab = ({ handleNextStep, setOrderSuccess }: IProps) => {
   const { cart, cartListChecked } = useCurrentApp();
-
   const carts = useMemo(() => {
     const cartsChecked = new Set(cartListChecked.map((item) => item._id));
     return cart.filter((item) => cartsChecked.has(item._id));
@@ -23,7 +23,7 @@ const OrderTab = ({ handleNextStep }: IProps) => {
         </div>
 
         <div className="order-right">
-          <OrderInfo items={carts} handleNextStep={handleNextStep} />
+          <OrderInfo items={carts} handleNextStep={handleNextStep} setOrderSuccess={setOrderSuccess} />
         </div>
       </div>
     </div>

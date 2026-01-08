@@ -24,10 +24,11 @@ interface IOrder {
 interface IProps {
   handleNextStep: () => void;
   items: ICart[];
+  setOrderSuccess: (v: boolean) => void;
 }
 
 const OrderInfo = (props: IProps) => {
-  const { handleNextStep, items } = props;
+  const { handleNextStep, items, setOrderSuccess } = props;
   const [form] = Form.useForm();
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,15 +80,18 @@ const OrderInfo = (props: IProps) => {
           message: APP_MESSAGES.COMMON.SUCCESS_TITLE,
           description: "Đơn hàng của bản đã được đặt",
         });
-        handleNextStep();
         setLoading(false);
+        handleNextStep();
         handleDeleteSelectedBookToCart();
+        setOrderSuccess(true);
       } else {
         notification.error({
           message: APP_MESSAGES.COMMON.ERROR_TITLE,
           description: "Có lỗi xảy ra, vui lòng tạo lại đơn hàng",
         });
         setLoading(false);
+        handleNextStep();
+        setOrderSuccess(false);
       }
     }, 1500);
   };

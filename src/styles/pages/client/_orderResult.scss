@@ -1,0 +1,24 @@
+@use "../../abstracts";
+
+.order-result {
+  &__wrapper {
+    width: min(1400px, 100%);
+    padding: 0 20px;
+    margin: 20px auto 0;
+  }
+
+  &__content {
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+    padding: 0 300px;
+
+    @include abstracts.breakpoint(lg) {
+      padding: 0 100px;
+    }
+
+    @include abstracts.breakpoint(md) {
+      padding: 0 5px;
+    }
+  }
+}

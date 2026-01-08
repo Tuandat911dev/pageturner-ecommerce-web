@@ -3,9 +3,11 @@ import { Steps } from "antd";
 import { useState } from "react";
 import { BankOutlined, FileDoneOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import OrderTab from "@/components/client/orderPageStep/order.tab";
+import OrderResult from "@/components/client/orderPageStep/order.result.tab";
 
 const OrderPage = () => {
   const [current, setCurrent] = useState(0);
+  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
 
   const handleNextStep = () => {
     setCurrent(current + 1);
@@ -19,12 +21,12 @@ const OrderPage = () => {
     },
     {
       title: "Tạo Đơn Hàng",
-      content: <OrderTab handleNextStep={handleNextStep} />,
+      content: <OrderTab handleNextStep={handleNextStep} setOrderSuccess={setOrderSuccess} />,
       icon: <FileDoneOutlined />,
     },
     {
       title: "Thanh Toán",
-      content: "Last-content",
+      content: <OrderResult orderSuccess={orderSuccess} />,
       icon: <BankOutlined />,
     },
   ];
