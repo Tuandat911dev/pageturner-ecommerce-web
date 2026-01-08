@@ -1,0 +1,36 @@
+.user-info-modal {
+  .ant-modal-body {
+    padding: 0 !important;
+  }
+
+  .modal-sidebar {
+    border-right: 1px solid #f0f0f0;
+    padding-top: 10px !important;
+
+    .ant-menu-inline {
+      border-inline-end: none !important;
+    }
+  }
+
+  .modal-content {
+    padding: 24px !important;
+
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+
+      .ant-avatar {
+        border: 1px solid #d9d9d9;
+      }
+    }
+  }
+
+  .ant-modal-footer {
+    padding: 12px 24px !important;
+    margin: 0;
+    border-top: 1px solid #f0f0f0;
+  }
+}

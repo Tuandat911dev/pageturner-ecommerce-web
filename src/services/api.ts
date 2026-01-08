@@ -146,3 +146,23 @@ export const orderHistoryAPI = () => {
   const urlBackend = "/api/v1/history";
   return axios.get<IBackendRes<IOrderHistory[]>>(urlBackend);
 };
+
+// account management
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const callUploadImageAvatar = (file: any) => {
+  const urlBackend = "/api/v1/file/upload";
+  const body = new FormData();
+  body.append("fileImg", file);
+
+  return axios.post<IBackendRes<string>>(urlBackend, body, {
+    headers: {
+      "upload-type": "avatar",
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const updateAccountAPI = (data: { fullName: string; phone: string; avatar: string; _id: string }) => {
+  const urlBackend = "/api/v1/user";
+  return axios.put<IBackendRes<string>>(urlBackend, data);
+};

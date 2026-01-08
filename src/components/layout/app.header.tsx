@@ -7,6 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
 import ProductCart from "@/components/client/cart/cart.popup";
+import AccountModal from "../client/account/acount.modal";
 
 const { Search } = Input;
 
@@ -15,6 +16,7 @@ const AppHeader = () => {
   const { isAuthenticated, user, setUser, setIsAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
   const { cart } = useCurrentApp();
+  const [isModalAccountOpen, setIsModalAccountOpen] = useState(false);
 
   const handleLogout = async () => {
     const res = await logoutAPI();
@@ -32,7 +34,7 @@ const AppHeader = () => {
       label: "Quản lý tài khoản",
       key: "account",
       icon: <FiUser />,
-      onClick: () => navigate("/account"),
+      onClick: () => setIsModalAccountOpen(true),
     },
     {
       label: <Link to="/history">Lịch sử mua hàng</Link>,
@@ -138,6 +140,15 @@ const AppHeader = () => {
                 <li onClick={() => setOpenDrawer(false)}>
                   <Link to="/history">Lịch sử mua hàng</Link>
                 </li>
+
+                <li
+                  onClick={() => {
+                    setOpenDrawer(false);
+                    setIsModalAccountOpen(true);
+                  }}
+                >
+                  <span>Tài Khoản</span>
+                </li>
                 {user?.role === "ADMIN" && (
                   <li onClick={() => setOpenDrawer(false)}>
                     <Link to="/admin">Trang quản trị</Link>
@@ -171,6 +182,8 @@ const AppHeader = () => {
           </ul>
         </div>
       </Drawer>
+
+      <AccountModal isModalAccountOpen={isModalAccountOpen} setIsModalAccountOpen={setIsModalAccountOpen} />
     </>
   );
 };
