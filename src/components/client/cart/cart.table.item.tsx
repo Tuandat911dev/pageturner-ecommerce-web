@@ -4,12 +4,6 @@ import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { InputNumber, Popconfirm } from "antd";
 import { useState } from "react";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 interface IProps {
   cart: ICart;
   cartListChecked: ICart[];

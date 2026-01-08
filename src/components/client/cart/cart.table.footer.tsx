@@ -4,12 +4,6 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useMemo } from "react";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 interface IProps {
   checkAllBox: boolean;
   handleToggleAll: (v: boolean) => void;

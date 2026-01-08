@@ -4,12 +4,6 @@ import { useState } from "react";
 import CartTableFooter from "./cart.table.footer";
 import { useCurrentApp } from "@/components/context/app.context";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 const CartTable = () => {
   const { cart, setCart } = useCurrentApp();
   const [checkAllBox, setCheckAllBox] = useState<boolean>(false);

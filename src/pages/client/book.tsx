@@ -12,12 +12,6 @@ import { useCurrentApp } from "@/components/context/app.context";
 
 type TInputNumber = "increase" | "decrease";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 const BookPage = () => {
   const { bookId } = useParams();
   const { Title, Text } = Typography;

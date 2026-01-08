@@ -1,12 +1,6 @@
 import { formatVND } from "@/services/helper";
 import { Typography } from "antd";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 interface IProps {
   cart: ICart;
 }

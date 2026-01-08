@@ -1,12 +1,6 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import CartTableItem from "components/client/cart/cart.table.item";
 
-interface ICart {
-  detail: IBookTable;
-  quantity: number;
-  _id: string;
-}
-
 interface IProps {
   cartListChecked: ICart[];
   setCartListChecked: (v: ICart[]) => void;
