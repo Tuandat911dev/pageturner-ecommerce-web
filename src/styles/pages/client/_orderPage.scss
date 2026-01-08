@@ -1,0 +1,27 @@
+@use "../../abstracts";
+
+.order-step {
+  &__wrapper {
+    width: min(1400px, 100%);
+    padding: 0 20px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  &__step {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+
+    & .ant-steps-item-finish {
+      .ant-steps-item-content {
+        color: #1677ff !important;
+      }
+
+      .ant-steps-item-title {
+        color: inherit !important;
+      }
+    }
+  }
+}

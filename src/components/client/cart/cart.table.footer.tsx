@@ -9,10 +9,11 @@ interface IProps {
   handleToggleAll: (v: boolean) => void;
   cartListChecked: ICart[];
   handleDeleteSelectedCart: () => void;
+  handleNextStep: () => void;
 }
 
 const CartTableFooter = (props: IProps) => {
-  const { checkAllBox, handleToggleAll, cartListChecked, handleDeleteSelectedCart } = props;
+  const { checkAllBox, handleToggleAll, cartListChecked, handleDeleteSelectedCart, handleNextStep } = props;
   const { cart } = useCurrentApp();
 
   const handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +60,7 @@ const CartTableFooter = (props: IProps) => {
             className="cart-table-footer__cta-btn"
             disabled={cartListChecked.length === 0}
             color="blue"
+            onClick={handleNextStep}
           >
             Thanh Toán
           </Button>

@@ -4,7 +4,12 @@ import { useState } from "react";
 import CartTableFooter from "./cart.table.footer";
 import { useCurrentApp } from "@/components/context/app.context";
 
-const CartTable = () => {
+interface IProps {
+  handleNextStep: () => void;
+}
+
+const CartTable = (props: IProps) => {
+  const { handleNextStep } = props;
   const { cart, setCart } = useCurrentApp();
   const [checkAllBox, setCheckAllBox] = useState<boolean>(false);
   const [cartListChecked, setCartListChecked] = useState<ICart[]>([]);
@@ -39,6 +44,7 @@ const CartTable = () => {
         handleToggleAll={handleToggleAll}
         cartListChecked={cartListChecked}
         handleDeleteSelectedCart={handleDeleteSelectedCart}
+        handleNextStep={handleNextStep}
       />
     </div>
   );
