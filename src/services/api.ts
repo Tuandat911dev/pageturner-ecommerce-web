@@ -166,3 +166,8 @@ export const updateAccountAPI = (data: { fullName: string; phone: string; avatar
   const urlBackend = "/api/v1/user";
   return axios.put<IBackendRes<string>>(urlBackend, data);
 };
+
+export const changePasswordAPI = (data: { email: string; oldpass: string; newpass: string }) => {
+  const urlBackend = "/api/v1/user/change-password";
+  return axios.post<IBackendRes<string>>(urlBackend, data);
+};

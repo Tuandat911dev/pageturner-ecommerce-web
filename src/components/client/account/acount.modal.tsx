@@ -15,7 +15,7 @@ import {
 import { UserOutlined, LockOutlined, PhoneOutlined } from "@ant-design/icons";
 import type { UploadRequestOption } from "rc-upload/lib/interface";
 import { App } from "antd";
-import { callUploadImageAvatar, updateAccountAPI } from "@/services/api";
+import { callUploadImageAvatar, changePasswordAPI, updateAccountAPI } from "@/services/api";
 import { useCurrentApp } from "@/components/context/app.context";
 
 interface IProps {
@@ -28,6 +28,11 @@ interface IFormInfo {
   phone: string;
   email: string;
   avatar: string;
+}
+
+interface IFormPass {
+  oldPassword: string;
+  newPassword: string;
 }
 
 type TActiveKey = "info" | "password";
@@ -83,7 +88,6 @@ const AccountModal = (props: IProps) => {
     } else {
       formPass.submit();
     }
-    // setIsModalAccountOpen(false);
   };
 
   const handleCancel = () => {
@@ -154,10 +158,34 @@ const AccountModal = (props: IProps) => {
       const res = await updateAccountAPI(data);
       if (res && res.data) {
         message.success("Cập nhật tài khoản thành công");
-        setLoading(false);
         setIsModalAccountOpen(false);
         formInfo.resetFields();
+      } else {
+        message.error("Cập nhật tài khoản không thành công");
       }
+      setLoading(false);
+    }, 1500);
+  };
+
+  const handleSubmitFormPass = (values: IFormPass) => {
+    const data = {
+      email: user!.email,
+      oldpass: values.oldPassword,
+      newpass: values.newPassword,
+    };
+
+    setLoading(true);
+    setTimeout(async () => {
+      const res = await changePasswordAPI(data);
+      if (res && res.data) {
+        message.success("Cập nhật mật khẩu thành công");
+        setIsModalAccountOpen(false);
+        formPass.resetFields();
+        setActiveKey("info");
+      } else {
+        message.error("Cập nhật mật khẩu không thành công");
+      }
+      setLoading(false);
     }, 1500);
   };
 
@@ -188,7 +216,7 @@ const AccountModal = (props: IProps) => {
         </Col>
 
         <Col span={16} className="modal-content">
-          {activeKey === "info" ? (
+          <div style={{ display: activeKey === "info" ? "block" : "none" }}>
             <Form<IFormInfo> form={formInfo} layout="vertical" onFinish={(values) => handleSubmitFormInfo(values)}>
               <Form.Item label="Ảnh đại diện" name="avatar">
                 <div className="avatar-section">
@@ -229,8 +257,10 @@ const AccountModal = (props: IProps) => {
                 <Input disabled placeholder="email@example.com" />
               </Form.Item>
             </Form>
-          ) : (
-            <Form form={formPass} layout="vertical" onFinish={(values) => console.log("Change Pass:", values)}>
+          </div>
+
+          <div style={{ display: activeKey === "password" ? "block" : "none" }}>
+            <Form<IFormPass> form={formPass} layout="vertical" onFinish={(values) => handleSubmitFormPass(values)}>
               <Form.Item label="Mật khẩu cũ" name="oldPassword" rules={[{ required: true }]}>
                 <Input.Password prefix={<LockOutlined />} placeholder="Nhập mật khẩu hiện tại" />
               </Form.Item>
@@ -258,7 +288,7 @@ const AccountModal = (props: IProps) => {
                 <Input.Password prefix={<LockOutlined />} placeholder="Nhập lại mật khẩu mới" />
               </Form.Item>
             </Form>
-          )}
+          </div>
         </Col>
       </Row>
     </Modal>
