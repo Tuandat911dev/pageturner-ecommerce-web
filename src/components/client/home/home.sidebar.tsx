@@ -30,37 +30,37 @@ const HomeSidebar = (props: IProps) => {
   }, []);
 
   useEffect(() => {
-    const handleFilterCategory = () => {
-      let query = queryFilter;
-      if (categoryValue && categoryValue.length > 0) {
-        query += "&category=";
+    const params = new URLSearchParams(queryFilter.replace(/^&/, ""));
 
-        for (let i = 0; i < categoryValue.length; i++) {
-          if (categoryValue.length === 1) {
-            query += categoryValue[i];
-          } else {
-            if (i === categoryValue.length - 1) {
-              query += categoryValue[i];
-              break;
-            }
-            query += categoryValue[i] + ",";
-          }
-        }
-      }
-      setQueryFilter(query);
-    };
+    if (categoryValue && categoryValue.length > 0) {
+      params.set("category", categoryValue.join(","));
+    } else {
+      params.delete("category");
+    }
 
-    handleFilterCategory();
-  }, [categoryValue, setQueryFilter]);
+    const newQuery = params.toString();
+    setQueryFilter(newQuery ? `&${newQuery}` : "");
+  }, [categoryValue]);
 
   const handleFilterPrice = () => {
-    let query = queryFilter;
+    const currentParams = queryFilter
+      .split("&")
+      .filter(
+        (item) =>
+          item !== "" &&
+          !item.startsWith("price%3E%3D") &&
+          !item.startsWith("price%3C%3D") &&
+          !item.startsWith("price>=") &&
+          !item.startsWith("price<=")
+      );
+
     if (fromPrice && toPrice) {
-      query += `&price>=${fromPrice}&price<=${toPrice}`;
-      setQueryFilter(query);
-    } else {
-      return;
+      currentParams.push(`price>=${fromPrice}`);
+      currentParams.push(`price<=${toPrice}`);
     }
+
+    const newQuery = currentParams.join("&");
+    setQueryFilter(newQuery ? `&${newQuery}` : "");
   };
 
   const formatter: InputNumberProps<number>["formatter"] = (value) => {
