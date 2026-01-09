@@ -203,7 +203,7 @@ const AccountModal = (props: IProps) => {
       confirmLoading={loading}
     >
       <Row gutter={24} style={{ minHeight: "400px" }}>
-        <Col span={8} className="modal-sidebar">
+        <Col xs={24} sm={24} md={24} lg={8} className="modal-sidebar">
           <Menu
             mode="inline"
             selectedKeys={[activeKey]}
@@ -215,7 +215,7 @@ const AccountModal = (props: IProps) => {
           />
         </Col>
 
-        <Col span={16} className="modal-content">
+        <Col xs={24} sm={24} md={24} lg={16} className="modal-content">
           <div style={{ display: activeKey === "info" ? "block" : "none" }}>
             <Form<IFormInfo> form={formInfo} layout="vertical" onFinish={(values) => handleSubmitFormInfo(values)}>
               <Form.Item label="Ảnh đại diện" name="avatar">
