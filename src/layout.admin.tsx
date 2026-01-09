@@ -8,7 +8,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Dropdown, Space, Avatar } from "antd";
+import { Layout, Menu, Dropdown, Space, Avatar, App } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useCurrentApp } from "./components/context/app.context";
@@ -22,6 +22,7 @@ const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { user, setUser, setIsAuthenticated, isAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
+  const { message } = App.useApp();
 
   const location = useLocation();
 
@@ -59,6 +60,7 @@ const LayoutAdmin = () => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("carts");
       navigate("/");
+      message.info("Đăng xuất thành công. Hẹn gặp lại bạn sớm nhé!");
     }
   };
 

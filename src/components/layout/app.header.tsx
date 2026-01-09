@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaReact } from "react-icons/fa";
 import { FiShoppingCart, FiBook, FiUser, FiLogOut, FiLayout } from "react-icons/fi";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space } from "antd";
+import { Divider, Badge, Drawer, Avatar, Input, Button, Dropdown, Space, App } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
@@ -17,6 +17,7 @@ const AppHeader = () => {
   const navigate = useNavigate();
   const { cart, setSearchQuery } = useCurrentApp();
   const [isModalAccountOpen, setIsModalAccountOpen] = useState(false);
+  const { message } = App.useApp();
 
   const handleLogout = async () => {
     const res = await logoutAPI();
@@ -26,6 +27,7 @@ const AppHeader = () => {
       localStorage.removeItem("access_token");
       setOpenDrawer(false);
       navigate("/");
+      message.info("Đăng xuất thành công. Hẹn gặp lại bạn sớm nhé!");
     }
   };
 
