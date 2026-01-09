@@ -109,4 +109,9 @@ declare global {
     updatedAt: Date;
     __v: number;
   }
+
+  interface IDashboard {
+    countOrder: number;
+    countUser: number;
+  }
 }

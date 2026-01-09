@@ -116,6 +116,12 @@ export const deleteBookAPI = (_id: string) => {
   return axios.delete<IBackendRes<string>>(urlBackend);
 };
 
+/* ADMIN: Dashboard */
+export const getDashboardAPI = () => {
+  const urlBackend = "/api/v1/database/dashboard";
+  return axios.get<IBackendRes<IDashboard>>(urlBackend);
+};
+
 /* Client */
 export const getBookByIdAPI = (_id: string) => {
   const urlBackend = `/api/v1/book/${_id}`;
