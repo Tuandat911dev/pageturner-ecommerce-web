@@ -12,7 +12,9 @@ const OrderSuccessResult = () => {
           <Button type="primary" key="home">
             <Link to={"/"}>Trang Chủ</Link>
           </Button>,
-          <Button key="history">Theo Dõi Đơn Hàng</Button>,
+          <Button key="history">
+            <Link to={"/history"}>Theo Dõi Đơn Hàng</Link>
+          </Button>,
         ]}
       />
     </>

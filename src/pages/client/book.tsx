@@ -11,6 +11,7 @@ import ProductLoading from "@/components/client/product/product.loading";
 import { useCurrentApp } from "@/components/context/app.context";
 
 type TInputNumber = "increase" | "decrease";
+type TButtonOption = "cart" | "buy";
 
 const BookPage = () => {
   const { bookId } = useParams();
@@ -22,7 +23,7 @@ const BookPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const { setCart } = useCurrentApp();
+  const { setCart, isAuthenticated } = useCurrentApp();
 
   useEffect(() => {
     const getBook = () => {
@@ -72,27 +73,38 @@ const BookPage = () => {
     }
   };
 
-  const handleAddToCart = (_id: string, book: IBookTable) => {
-    const cartData = localStorage.getItem("carts");
-    if (cartData) {
-      let carts = JSON.parse(cartData) as ICart[];
-      const existedCart = carts.find((cart) => cart._id === _id);
-      if (existedCart) {
-        existedCart.quantity += currentQuantity;
+  const handleAddToCart = (_id: string, book: IBookTable, option: TButtonOption) => {
+    if (isAuthenticated) {
+      const cartData = localStorage.getItem("carts");
+      if (cartData) {
+        let carts = JSON.parse(cartData) as ICart[];
+        const existedCart = carts.find((cart) => cart._id === _id);
+        if (existedCart) {
+          existedCart.quantity += currentQuantity;
+        } else {
+          carts = [...carts, { detail: book, quantity: currentQuantity, _id: _id }];
+        }
+
+        setCart(carts);
+        localStorage.setItem("carts", JSON.stringify(carts));
+        setCurrentQuantity(1);
+        message.success("Thêm vào giỏ hàng thành công");
       } else {
-        carts = [...carts, { detail: book, quantity: currentQuantity, _id: _id }];
+        const carts = [{ detail: book, quantity: currentQuantity, _id: _id }];
+        localStorage.setItem("carts", JSON.stringify(carts));
+        setCart(carts);
+        setCurrentQuantity(1);
+        message.success("Thêm vào giỏ hàng thành công");
       }
 
-      setCart(carts);
-      localStorage.setItem("carts", JSON.stringify(carts));
-      setCurrentQuantity(1);
-      message.success("Thêm vào giỏ hàng thành công");
+      if (option === "cart") {
+        return;
+      } else {
+        navigate("/order");
+      }
     } else {
-      const carts = [{ detail: book, quantity: currentQuantity, _id: _id }];
-      localStorage.setItem("carts", JSON.stringify(carts));
-      setCart(carts);
-      setCurrentQuantity(1);
-      message.success("Thêm vào giỏ hàng thành công");
+      navigate("/login");
+      message.info("Đăng nhập để mua hàng");
     }
   };
 
@@ -197,7 +209,7 @@ const BookPage = () => {
                       <Button
                         size="large"
                         icon={<ShoppingCartOutlined />}
-                        onClick={() => handleAddToCart(bookData._id, bookData)}
+                        onClick={() => handleAddToCart(bookData._id, bookData, "cart")}
                         className="add-to-cart-btn"
                       >
                         Thêm Vào Giỏ Hàng
@@ -206,7 +218,7 @@ const BookPage = () => {
                         size="large"
                         type="primary"
                         icon={<CreditCardOutlined />}
-                        onClick={() => message.info("Chức năng mua ngay")}
+                        onClick={() => handleAddToCart(bookData._id, bookData, "buy")}
                         className="buy-now-btn"
                       >
                         Mua Ngay
