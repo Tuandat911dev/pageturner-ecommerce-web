@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   AppstoreOutlined,
   ExceptionOutlined,
@@ -20,41 +20,35 @@ const { Content, Footer, Sider } = Layout;
 
 const LayoutAdmin = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("");
   const { user, setUser, setIsAuthenticated, isAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  const items: MenuItem[] = useMemo(() => {
-   return [
-      {
-        label: <Link to="/admin">Dashboard</Link>,
-        key: "/admin",
-        icon: <AppstoreOutlined />,
-      },
-      {
-        label: <Link to="/admin/user">Manage Users</Link>,
-        key: "/admin/user",
-        icon: <UserOutlined />,
-      },
-      {
-        label: <Link to="/admin/book">Manage Books</Link>,
-        key: "/admin/book",
-        icon: <ExceptionOutlined />,
-      },
-      {
-        label: <Link to="/admin/order">Manage Orders</Link>,
-        key: "/admin/order",
-        icon: <DollarCircleOutlined />,
-      },
-    ];
-  }, []);
+  const activeMenu = location.pathname;
 
-  useEffect(() => {
-    const active: any = items.find((item) => location.pathname === (item!.key)) ?? "/admin";
-    setActiveMenu(active.key);
-  }, [location, items]);
+  const items: MenuItem[] = [
+    {
+      label: <Link to="/admin">Dashboard</Link>,
+      key: "/admin",
+      icon: <AppstoreOutlined />,
+    },
+    {
+      label: <Link to="/admin/user">Manage Users</Link>,
+      key: "/admin/user",
+      icon: <UserOutlined />,
+    },
+    {
+      label: <Link to="/admin/book">Manage Books</Link>,
+      key: "/admin/book",
+      icon: <ExceptionOutlined />,
+    },
+    {
+      label: <Link to="/admin/order">Manage Orders</Link>,
+      key: "/admin/order",
+      icon: <DollarCircleOutlined />,
+    },
+  ];
 
   const handleLogout = async () => {
     //todo
@@ -122,13 +116,7 @@ const LayoutAdmin = () => {
           }}
         >
           <div style={{ height: 32, margin: 16, textAlign: "center" }}>Admin</div>
-          <Menu
-            defaultSelectedKeys={[activeMenu]}
-            selectedKeys={[activeMenu]}
-            mode="inline"
-            items={items}
-            onClick={(e) => setActiveMenu(e.key)}
-          />
+          <Menu defaultSelectedKeys={[activeMenu]} selectedKeys={[activeMenu]} mode="inline" items={items} />
         </Sider>
         <Layout>
           <div
