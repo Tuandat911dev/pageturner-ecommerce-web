@@ -122,6 +122,12 @@ export const getDashboardAPI = () => {
   return axios.get<IBackendRes<IDashboard>>(urlBackend);
 };
 
+/* ADMIN: Order */
+export const getOrderAdminAPI = (query: string) => {
+  const urlBackend = `/api/v1/order?${query}`;
+  return axios.get<IBackendRes<IModelPaginate<IOrder>>>(urlBackend);
+};
+
 /* Client */
 export const getBookByIdAPI = (_id: string) => {
   const urlBackend = `/api/v1/book/${_id}`;

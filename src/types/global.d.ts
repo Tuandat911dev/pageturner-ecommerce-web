@@ -114,4 +114,23 @@ declare global {
     countOrder: number;
     countUser: number;
   }
+
+  interface IOrder {
+    _id: string;
+    name: string;
+    address: string;
+    phone: string;
+    type: string;
+    detail: [
+      {
+        bookName: string;
+        quantity: number;
+        _id: string;
+      }
+    ];
+    totalPrice: number;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: 0;
+  }
 }
