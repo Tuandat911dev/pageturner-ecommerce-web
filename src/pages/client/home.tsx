@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getBookAPI } from "@/services/api";
 import { FilterOutlined } from "@ant-design/icons";
 import ProductMobileFilter from "@/components/client/product/product.mobile.filter";
+import { useCurrentApp } from "@/components/context/app.context";
 
 const HomePage = () => {
   const [bookData, setBookData] = useState<IBookTable[]>([]);
@@ -14,6 +15,7 @@ const HomePage = () => {
   const [queryTab, setQueryTab] = useState<string>("");
   const [queryFilter, setQueryFilter] = useState<string>("");
   const [openMobileFilter, setOpenMobileFilter] = useState<boolean>(false);
+  const { searchQuery } = useCurrentApp();
   const pageSize = 8;
 
   useEffect(() => {
@@ -22,6 +24,10 @@ const HomePage = () => {
       query += `current=${currentPage}&pageSize=${pageSize}`;
       query += queryTab;
       query += queryFilter;
+      if (searchQuery !== "") {
+        query += `&mainText=/${searchQuery}/i`;
+      }
+
       const res = await getBookAPI(query);
       if (res.data) {
         setBookData(res.data.result);
@@ -30,7 +36,7 @@ const HomePage = () => {
     };
 
     getBookData();
-  }, [currentPage, pageSize, queryTab, queryFilter]);
+  }, [currentPage, pageSize, queryTab, queryFilter, searchQuery]);
 
   const handleChangeTab = (activeKey: string) => {
     let query = "";

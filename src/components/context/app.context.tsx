@@ -13,6 +13,8 @@ interface IAppContext {
   setCart: (v: ICart[]) => void;
   cartListChecked: ICart[];
   setCartListChecked: (v: ICart[]) => void;
+  searchQuery: string;
+  setSearchQuery: (v: string) => void;
 }
 
 interface ICart {
@@ -33,6 +35,7 @@ const AppProvider = (props: TProps) => {
   const [cart, setCart] = useState<ICart[]>([]);
   const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
   const [cartListChecked, setCartListChecked] = useState<ICart[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const initApp = async () => {
@@ -95,6 +98,8 @@ const AppProvider = (props: TProps) => {
           setCart,
           cartListChecked,
           setCartListChecked,
+          searchQuery,
+          setSearchQuery,
         }}
       >
         {props.children}

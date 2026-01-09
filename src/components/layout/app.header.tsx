@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useCurrentApp } from "components/context/app.context";
 import { logoutAPI } from "@/services/api";
 import ProductCart from "@/components/client/cart/cart.popup";
-import AccountModal from "../client/account/acount.modal";
+import AccountModal from "@/components/client/account/account.modal";
 
 const { Search } = Input;
 
@@ -15,7 +15,7 @@ const AppHeader = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { isAuthenticated, user, setUser, setIsAuthenticated } = useCurrentApp();
   const navigate = useNavigate();
-  const { cart } = useCurrentApp();
+  const { cart, setSearchQuery } = useCurrentApp();
   const [isModalAccountOpen, setIsModalAccountOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -73,7 +73,7 @@ const AppHeader = () => {
             <Search
               placeholder="Tìm cuốn sách bạn yêu thích..."
               allowClear
-              onSearch={(v) => console.log("Search:", v)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               size="middle"
             />
           </div>
