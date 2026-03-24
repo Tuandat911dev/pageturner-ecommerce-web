@@ -26,7 +26,7 @@
 
 1. Clone dự án:
    ```bash
-   git clone [https://github.com/username/pageturner-ecommerce-web.git](https://github.com/Tuandat911dev/pageturner-ecommerce-web)
+   git clone https://github.com/Tuandat911dev/pageturner-ecommerce-web.git
    ```
 2. Cài đặt dependency:
    ```bash
