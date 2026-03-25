@@ -12,7 +12,7 @@
 - **Quản lý danh mục:** Lọc sách theo thể loại, tác giả và giá cả.
 - **Giỏ hàng thông minh:** Thêm/sửa/xóa sản phẩm với tính toán thời gian thực.
 - **Tìm kiếm tối ưu:** Tìm kiếm sách nhanh chóng với Debounce kỹ thuật.
-- **Thanh toán (Mock):** Quy trình checkout mô phỏng tích hợp validation.
+- **Authentication / Authorization sử dụng cơ chế stateless:** Tích hợp tính năng xác thực bằng JWT, tự động call API re-new JWT khi hết hạn, phân quyền người dùng theo role
 - **Responsive Design:** Trải nghiệm hoàn hảo trên cả Mobile, Tablet và Desktop.
 
 ## 🛠️ Tech Stack
@@ -26,7 +26,7 @@
 
 1. Clone dự án:
    ```bash
-   git clone [https://github.com/username/pageturner-ecommerce-web.git](https://github.com/Tuandat911dev/pageturner-ecommerce-web)
+   git clone https://github.com/Tuandat911dev/pageturner-ecommerce-web.git
    ```
 2. Cài đặt dependency:
    ```bash
